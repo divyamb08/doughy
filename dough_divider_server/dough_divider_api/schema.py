@@ -26,6 +26,11 @@ type_defs = """
         deleteTransaction(transactionId: ID!): TransactionPayload
     }
 
+    type Subscription {
+      getTransactionByLeader(leader: String!): TransactionPayload
+      getTransactionByMember(member: String!): TransactionPayload
+    }
+
     type Transaction {
         leader: String!
         member: String!
@@ -108,6 +113,16 @@ def delete_transaction(_, info, transactionId):
     "transaction": transaction
   }
 
+subscription = SubscriptionType()
+
+@subscription.source("getTransactionByLeader")
+def generate_transaction_by_leader(_, info, leader):
+  pass
+
+@subscription.field("getTransactionByLeader")
+def resolve_transaction_by_leader(transaction, info):
+  pass
+
 
 # async def counter_generator(obj, info):
 #     for i in range(5):
@@ -123,7 +138,7 @@ def delete_transaction(_, info, transactionId):
 # subscription.set_source("counter", counter_generator)
 # schema = make_executable_schema(type_defs, query)
 
-schema = make_executable_schema([type_defs], [query, mutation])
+schema = make_executable_schema([type_defs], [query, mutation, subscription])
 graphql = GraphQL(
     schema=schema,
     debug=True,
