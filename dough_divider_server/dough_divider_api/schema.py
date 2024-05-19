@@ -1,30 +1,64 @@
-import strawberry
-import strawberry_django
+import json
+from ariadne import QueryType, MutationType, SubscriptionType, make_executable_schema
+from ariadne.asgi import GraphQL
+from ariadne.asgi.handlers import GraphQLWSHandler
+from broadcaster import Broadcast
+from starlette.applications import Starlette
 import asyncio
-from typing import AsyncGenerator
-from strawberry_django.optimizer import DjangoOptimizerExtension
-from strawberry_django import mutations
-from .types import Transaction
 
-@strawberry.type
-class Query:
-    get_transactions: list[Transaction] = strawberry_django.field()
+broadcast = Broadcast("memory://")
 
-@strawberry.type
-class Subscription:
-    @strawberry.subscription
-    async def count(self, target: int = 100) -> int:
-        for i in range(target):
-            yield i
-            await asyncio.sleep(0.5)
+type_defs = """
+    type Query {
+        hello: String!
+    }
 
-# @strawberry.type
-# class Mutation:
-#     add_recipe_step: UserID = mutations.create(RecipeStepInput)
+    type Subscription {
+        counter: Int!
+    }
+    """
 
-schema = strawberry.Schema(
-    query=Query,
-    # mutation=Mutation,
-    subscription=Subscription,
-    extensions=[DjangoOptimizerExtension]
+query = QueryType()
+
+@query.field("hello")
+def resolve_hello(*_):
+    return "Hello world!"
+
+subscription = SubscriptionType()
+
+async def counter_generator(obj, info):
+    for i in range(5):
+        await asyncio.sleep(1)
+        yield i
+
+
+def counter_resolver(count, info):
+    return count + 1
+
+subscription.set_field("counter", counter_resolver)
+subscription.set_source("counter", counter_generator)
+
+# @subscription.source("message")
+# async def source_message(_, info):
+#     async with broadcast.subscribe(channel="chatroom") as subscriber:
+#         async for event in subscriber:
+#             yield json.loads(event.message)
+
+
+
+# schema = make_executable_schema(type_defs, query)
+
+schema = make_executable_schema(type_defs, query, subscription)
+graphql = GraphQL(
+    schema=schema,
+    debug=True,
+    websocket_handler=GraphQLWSHandler(),
 )
+
+app = Starlette(
+    debug=True,
+    on_startup=[broadcast.connect],
+    on_shutdown=[broadcast.disconnect],
+)
+
+app.mount("/", graphql)

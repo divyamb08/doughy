@@ -4,28 +4,22 @@ import "./App.css";
 import { gql, useQuery, useSubscription } from "@apollo/client";
 
 const TEST_QUERY = gql`
-  query GetTransactions {
-    getTransactions {
-      amount
-      description
-      completed
-    }
-  }
+ {hello}
 `;
 
 const COMMENTS_SUBSCRIPTION = gql`
-  subscription DemoSubscription {
-    count(target: 10)
-  }
+subscription {
+  counter
+}
 `;
 
 const App = () => {
-  const res = useQuery(TEST_QUERY);
-  // const { data, loading } = useSubscription(COMMENTS_SUBSCRIPTION);
+  // const { data, loading } = useQuery(TEST_QUERY);
+  const { data, loading } = useSubscription(COMMENTS_SUBSCRIPTION);
 
-  console.log(res);
-  const data = res.data;
-  const loading = res.loading;
+  // console.log(res);
+  // const data = res.data.hello;
+  // const loading = res.loading;
   // console.log(data, loading);
   // console.log(data, loading);
 
@@ -33,7 +27,7 @@ const App = () => {
     return <div>Loading...</div>;
   }
 
-  return <div>Data is: {data}</div>;
+  return <div>Data is: {data.counter}</div>;
 };
 
 export default App;
