@@ -23,6 +23,7 @@ type_defs = """
     type Mutation {
         addTransaction(input: TransactionInput!): TransactionPayload
         updateTransaction(transactionId: ID!, input: TransactionUpdateInput!): TransactionPayload
+        deleteTransaction(transactionId: ID!): TransactionPayload
     }
 
     type Transaction {
@@ -84,6 +85,19 @@ def add_transaction(_, info, input):
     return {
         "transaction": transaction
     }
+
+@mutation.field("deleteTransaction")
+def delete_transaction(_, info, transactionId):
+  transaction = Transaction.objects.get(transactionId=transactionId)
+  deletedId = str(transaction.transactionId)
+
+  transaction.delete()
+
+  transaction.transactionId = deletedId
+  return {
+    "transaction": transaction
+  }
+
 
 # async def counter_generator(obj, info):
 #     for i in range(5):
