@@ -14,12 +14,6 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
 
-// NOTE: From class starter code here - https://stackblitz.com/edit/stackblitz-starters-g1gxmc
-// const client = new ApolloClient({
-//   uri: "http://127.0.0.1:8000/graphql/",
-//   cache: new InMemoryCache(),
-// });
-
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:8000/graphql/",
 });

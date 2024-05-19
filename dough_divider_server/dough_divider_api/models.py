@@ -1,8 +1,9 @@
 from django.db import models
 
 class Transaction(models.Model):
-    # transactionId = models.IntegerField()
-    # groupId = models.IntegerField()
+    leader = models.CharField(max_length=128, default='')
+    member = models.CharField(max_length=128, default='')
     amount = models.FloatField()
-    description = models.CharField(max_length=1024)
-    completed = models.BooleanField(default=False)
+    completed = models.BooleanField(default="false")
+    note = models.CharField(max_length=1024, default='')
+    card = models.CharField(max_length=32, default='')
