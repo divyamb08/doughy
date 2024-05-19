@@ -1,6 +1,7 @@
 from django.db import models
 
 class Transaction(models.Model):
+    transactionId = models.AutoField(primary_key=True)
     leader = models.CharField(max_length=128, default='')
     member = models.CharField(max_length=128, default='')
     amount = models.FloatField()

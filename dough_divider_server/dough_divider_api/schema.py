@@ -9,7 +9,6 @@ from starlette.applications import Starlette
 from .models import Transaction
 from asgiref.sync import sync_to_async
 
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest.settings')
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 django.setup()
@@ -18,7 +17,7 @@ broadcast = Broadcast("memory://")
 
 type_defs = """
     type Query {
-        getAllTransactions: [Transaction]!
+        getAllTransactions: [TransactionWithId]!
     }
 
     type Mutation {
@@ -44,27 +43,35 @@ type_defs = """
         card: String!
     }
 
+    type TransactionWithId {
+        transactionId: ID!
+        leader: String!
+        member: String!
+        amount: Float!
+        completed: Boolean!
+        note: String!
+        card: String!
+    }
+
     input TransactionUpdateInput {
         completed: Boolean!
         card: String!
     }
-    
+
     type TransactionPayload {
-        transaction: Transaction
+        transaction: TransactionWithId
     }
     """
 
 query = QueryType()
 @query.field("getAllTransactions")
 def get_all_transactions(*_):
-    # transactions = await sync_to_async(Transaction.objects.all())
     transactions = Transaction.objects.all()
     return transactions
 
 mutation = MutationType()
 @mutation.field("addTransaction")
 def add_transaction(_, info, input):
-    print(input)
     transaction = Transaction(
         leader=input["leader"],
         member=input["member"],
