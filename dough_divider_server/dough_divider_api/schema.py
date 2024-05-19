@@ -8,6 +8,7 @@ from broadcaster import Broadcast
 from starlette.applications import Starlette
 from .models import Transaction
 from asgiref.sync import sync_to_async
+import asyncio
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest.settings')
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -27,7 +28,7 @@ type_defs = """
     }
 
     type Subscription {
-      getTransactionByLeader(leader: String!): TransactionPayload
+      getTransactionByLeader(leader: String!): TransactionWithId!
       getTransactionByMember(member: String!): TransactionPayload
     }
 
@@ -116,27 +117,22 @@ def delete_transaction(_, info, transactionId):
 subscription = SubscriptionType()
 
 @subscription.source("getTransactionByLeader")
-def generate_transaction_by_leader(_, info, leader):
-  pass
+async def generate_transaction_by_leader(_, info, leader):
+  print("\nLEADER IS", leader, "\n")
+
+  # return Transaction.objects.filter(leader=leader)
+  async for transaction in Transaction.objects.filter(leader=leader):
+    await asyncio.sleep(1)
+    yield transaction
 
 @subscription.field("getTransactionByLeader")
-def resolve_transaction_by_leader(transaction, info):
-  pass
+def resolve_transaction_by_leader(transaction, info, leader):
+  print("UPDATE TO TRANSACTIONS")
 
+  print(transaction)
+  print(leader)
 
-# async def counter_generator(obj, info):
-#     for i in range(5):
-#         await asyncio.sleep(1)
-#         yield i
-
-
-# def counter_resolver(count, info):
-#     return count + 1
-
-# subscription = SubscriptionType()
-# subscription.set_field("counter", counter_resolver)
-# subscription.set_source("counter", counter_generator)
-# schema = make_executable_schema(type_defs, query)
+  return transaction
 
 schema = make_executable_schema([type_defs], [query, mutation, subscription])
 graphql = GraphQL(
