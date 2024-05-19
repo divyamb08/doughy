@@ -86,6 +86,16 @@ def add_transaction(_, info, input):
         "transaction": transaction
     }
 
+@mutation.field("updateTransaction")
+def update_transaction(_, info, transactionId, input):
+    transaction = Transaction.objects.get(transactionId=transactionId)
+    transaction.card = input["card"]
+    transaction.completed = input["completed"]
+    transaction.save()
+    return {
+        "transaction": transaction
+    }
+
 @mutation.field("deleteTransaction")
 def delete_transaction(_, info, transactionId):
   transaction = Transaction.objects.get(transactionId=transactionId)
