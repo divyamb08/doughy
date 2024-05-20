@@ -18,6 +18,8 @@ const LeaderModal = ({
 }) => {
   const [senderNote, setSenderNote] = useState("");
   const [activeScreen, setActiveScreen] = useState("users");
+  const [splitSchema, setSplitSchema] = useState("equal");
+  const [transactionTotal, setTransactionTotal] = useState(0);
 
   const [deleteTransaction, { data: dataDeleted, loading: loadingDeleted }] =
     useMutation(DELETE_TRANSACTION);
@@ -67,6 +69,7 @@ const LeaderModal = ({
           setMemberLookup={setMemberLookup}
           setActiveScreen={setActiveScreen}
           getCompletedTransactions={getCompletedTransactions}
+          transactionTotal={transactionTotal}
         />
       ) : activeScreen == "users" ? (
         <LeaderUsersSubmodal
@@ -76,6 +79,10 @@ const LeaderModal = ({
           setActiveScreen={setActiveScreen}
           memberLookupInPayments={memberLookupInPayments}
           setMemberLookup={setMemberLookup}
+          splitSchema={splitSchema}
+          setSplitSchema={setSplitSchema}
+          transactionTotal={transactionTotal}
+          setTransactionTotal={setTransactionTotal}
         />
       ) : (
         <LeaderPaymentSubmodal

@@ -18,6 +18,7 @@ const LeaderWaitingSubmodal = ({
   setMemberLookup,
   setActiveScreen,
   getCompletedTransactions,
+  transactionTotal,
 }) => {
   const [numPaymentsComplete, setNumPaymentsComplete] = useState(1);
 

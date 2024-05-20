@@ -32,7 +32,7 @@ const Homepage = ({
   // Transaction received from another user (added as a group member)
   const [receivedTransaction, setReceivedTransaction] = useState({});
 
-  // TODO
+  // Check for any active transactions that were received (from a group leader) before you logged in
   const { data: dataInit, loading: loadingInit } = useQuery(
     GET_ACTIVE_TRANSACTION,
     {
