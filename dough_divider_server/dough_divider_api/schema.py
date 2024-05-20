@@ -6,12 +6,13 @@ from ariadne.asgi import GraphQL
 from ariadne.asgi.handlers import GraphQLWSHandler
 from broadcaster import Broadcast
 from starlette.applications import Starlette
-from .models import Transaction
+from .models import Transaction, CompletedTransaction
 from asgiref.sync import sync_to_async
 import asyncio
 import json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from .type_defs import type_defs
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest.settings')
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -20,88 +21,19 @@ django.setup()
 pubsub = Broadcast("memory://")
 queues = []
 
-type_defs = """
-    type Query {
-        getAllTransactions: [TransactionWithId]!
-        getAllUsers: [User]!
-    }
-
-    type Mutation {
-        addTransaction(input: TransactionInput!): TransactionPayload
-        updateTransaction(transactionId: ID!, input: TransactionUpdateInput!): TransactionPayload
-        deleteTransaction(transactionId: ID!): TransactionPayload
-        deleteAllTransactions: Boolean!
-        addUser(username: String!, email: String!, password: String!, firstName: String!, lastName: String!): User
-        login(username: String!, password: String!): Boolean
-        changePassword(username: String!, newPassword: String!): User
-    }
-
-    type Subscription {
-      getTransactionByLeader(leader: String!): TransactionWithId!
-      getTransactionByMember(member: String!): TransactionWithId!
-    }
-
-    type User {
-      email: String!
-      password: String!
-      first_name: String!
-      last_name: String!
-      username: String!
-    }
-
-    type Transaction {
-        leader: String!
-        member: String!
-        amount: Float!
-        completed: Boolean!
-        note: String!
-        card: String!
-    }
-
-    input TransactionInput {
-        leader: String!
-        member: String!
-        amount: Float!
-        completed: Boolean!
-        note: String!
-        card: String!
-    }
-
-    type TransactionWithId {
-        transactionId: ID!
-        leader: String!
-        member: String!
-        amount: Float!
-        completed: Boolean!
-        note: String!
-        card: String!
-    }
-
-    input TransactionUpdateInput {
-        completed: Boolean!
-        card: String!
-    }
-
-    type TransactionPayload {
-        transaction: TransactionWithId
-    }
-
-    type Message {
-      sender: String
-      message: String
-    }
-    """
-
 query = QueryType()
 @query.field("getAllTransactions")
 def get_all_transactions(*_):
-    transactions = Transaction.objects.all()
+    return Transaction.objects.all()
     return transactions
+
+@query.field("getAllCompletedTransactions")
+def get_all_transactions(_, info, member):
+    return CompletedTransaction.objects.filter(member=member)
 
 @query.field("getAllUsers")
 def get_all_users(*_):
-    users = User.objects.all()
-    return users
+    return User.objects.all()
 
 mutation = MutationType()
 @mutation.field("addTransaction")
@@ -132,6 +64,17 @@ async def add_transaction(_, info, input):
 def delete_all_transactions(_, info):
   Transaction.objects.all().delete()
   return True
+
+@mutation.field("addCompletedTransaction")
+def add_completed_transaction(_, info, input):
+  completedTransaction = CompletedTransaction(
+    leader=input["leader"],
+    member=input["member"],
+    amount=input["amount"],
+    note=input["note"]
+  )
+  completedTransaction.save()
+  return completedTransaction
 
 @mutation.field("addUser")
 def add_user(_, info, username, email, password, firstName, lastName):
