@@ -1,0 +1,12 @@
+/*
+  Some styles referenced from project 2 here:
+  https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/App.css
+*/
+
+.homepage-cover {
+  background-color: lightgray;
+  opacity: 0.5;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+}

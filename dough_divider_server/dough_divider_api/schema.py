@@ -25,10 +25,10 @@ query = QueryType()
 @query.field("getAllTransactions")
 def get_all_transactions(*_):
     return Transaction.objects.all()
-    return transactions
 
 @query.field("getAllCompletedTransactions")
-def get_all_transactions(_, info, member):
+async def get_all_transactions(_, info, member):
+    await asyncio.sleep(0.5) # TEMP
     return CompletedTransaction.objects.filter(member=member)
 
 @query.field("getAllUsers")
@@ -75,6 +75,11 @@ def add_completed_transaction(_, info, input):
   )
   completedTransaction.save()
   return completedTransaction
+
+@mutation.field("deleteAllCompletedTransactions")
+def delete_all_completed_transactions(_, info):
+  CompletedTransaction.objects.all().delete()
+  return True
 
 @mutation.field("addUser")
 def add_user(_, info, username, email, password, firstName, lastName):

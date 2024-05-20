@@ -1,36 +1,29 @@
 import { useState, useEffect } from "react";
-import { GET_COMPLETED_TRANSACTIONS } from "./gqlApi/gql";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
+import Homepage from "./screens/Homepage";
 
 const App = () => {
-  const [username, setUsername] = useState("User01");
-  const [completedTransactions, setCompletedTransactions] = useState([]);
+  const [username, setUsername] = useState("Group01Leader");
 
-  const { data: dataCompleted, loading: loadingCompleted } = useQuery(
-    GET_COMPLETED_TRANSACTIONS,
-    {
-      variables: { member: "User01" },
-      onCompleted: (result) => {
-        const orderedTransactions = [...result.getAllCompletedTransactions];
-        orderedTransactions.reverse();
-
-        setCompletedTransactions(orderedTransactions);
-      },
-    }
-  );
-
-  if (loadingCompleted) {
-    return <div>Loading past transactions...</div>;
-  }
+  /*
+    'inactive':  User has currently not initiated any transactions
+    'pending': User is setting up a transaction as a group leader
+    'active': User has sent out a transaction as a group leader, waiting for member responses
+  */
+  const [transactionState, setTransactionState] = useState("inactive");
 
   return (
     <>
-      {completedTransactions.map((transaction, index) => (
-        <div key={index}>
-          {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
-          {transaction.note}
-        </div>
-      ))}
+      {username === "" ? (
+        <div>Login Screen</div>
+      ) : (
+        <Homepage
+          username={username}
+          setUsername={setUsername}
+          transactionState={transactionState}
+          setTransactionState={setTransactionState}
+        />
+      )}
     </>
   );
 };

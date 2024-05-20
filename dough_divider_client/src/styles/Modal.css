@@ -1,0 +1,53 @@
+/*
+Referencing some code & styling from project 2 here:
+https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/styles/EditModal.css
+*/
+
+.modal {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  height: 80%;
+  width: 80%;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 30px;
+}
+
+.modal-title {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.transaction-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.transaction-note-textarea {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  height: 20vh;
+  border-radius: 30px;
+  padding: 15px;
+  font-size: 20px;
+  resize: none;
+  font-family: sans-serif;
+}
+
+.transaction-buttons-wrapper {
+  margin-top: 20px;
+}
+
+.transaction-buttons-wrapper > * {
+  margin: 0 15px;
+}
