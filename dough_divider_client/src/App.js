@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import Homepage from "./screens/Homepage";
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
 
 const App = () => {
   const [username, setUsername] = useState("Group01Leader");
@@ -25,6 +27,20 @@ const App = () => {
         />
       )}
     </>
+
+    // -TODO: Need to integrate login / signup with existing code
+
+    // <Login username={username}
+    //   setUsername={setUsername} />
+    // <Signup />
+    // <>
+    //   {completedTransactions.map((transaction, index) => (
+    //     <div key={index}>
+    //       {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
+    //       {transaction.note}
+    //     </div>
+    //   ))}
+    // </>
   );
 };
 

@@ -13,6 +13,7 @@ type_defs = """
         addCompletedTransaction(input: CompletedTransactionInput!): CompletedTransaction
         deleteAllCompletedTransactions: Boolean!
         addUser(username: String!, email: String!, password: String!, firstName: String!, lastName: String!): User
+        deleteUser(username: String!): Boolean
         login(username: String!, password: String!): Boolean
         changePassword(username: String!, newPassword: String!): User
     }
