@@ -21,6 +21,7 @@ type_defs = """
     type Subscription {
       getTransactionByLeader(leader: String!): TransactionWithId!
       getTransactionByMember(member: String!): TransactionWithId!
+      getDeletedTransactionByMember(member: String!): TransactionWithId!
     }
 
     type User {

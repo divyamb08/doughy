@@ -16,6 +16,7 @@ const MemberModal = ({
       {activeScreen === "status" ? (
         <MemberStatusSubmodal
           receivedTransaction={receivedTransaction}
+          setReceivedTransaction={setReceivedTransaction}
           setActiveScreen={setActiveScreen}
         />
       ) : (

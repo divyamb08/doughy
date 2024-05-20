@@ -29,7 +29,6 @@ const Login = ({ username, setUsername, setOnSignupScreen }) => {
           authenticate_user({
             variables: { un: loginUsername, pw: loginPassword },
             onCompleted: (data) => {
-              console.log(data);
               if (data.login) {
                 setUsername(loginUsername);
               } else {

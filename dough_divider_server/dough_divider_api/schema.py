@@ -137,9 +137,18 @@ async def update_transaction(_, info, transactionId, input):
     }
 
 @mutation.field("deleteTransaction")
-def delete_transaction(_, info, leader, member):
+async def delete_transaction(_, info, leader, member):
   transaction = Transaction.objects.get(leader=leader, member=member)
+  transactionJson = parseTransactionToJson(transaction)
+
+  for queue in queues:
+    await queue.put({
+      "type": "deleteTransaction",
+      "transaction": transactionJson
+    })
+
   transaction.delete()
+
   return True
 
 subscription = SubscriptionType()
@@ -178,6 +187,24 @@ async def generate_transaction_by_member(_, info, member):
 
 @subscription.field("getTransactionByMember")
 def resolve_transaction_by_member(transactionJson, info, member):
+  return transactionJson
+
+@subscription.source("getDeletedTransactionByMember")
+async def generate_deleted_transaction_by_member(_, info, member):
+  queue = asyncio.Queue()
+  queues.append(queue)
+
+  while True:
+    result = await queue.get()
+    type = result["type"]
+    transactionJson = result["transaction"]
+    queue.task_done()
+
+    if type == "deleteTransaction" and member == transactionJson["member"]:
+      yield transactionJson
+
+@subscription.field("getDeletedTransactionByMember")
+def resolve_deleted_transaction_by_member(transactionJson, info, member):
   return transactionJson
 
 schema = make_executable_schema([type_defs], [query, mutation, subscription])

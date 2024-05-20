@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GET_COMPLETED_TRANSACTIONS } from "../gqlApi/gql";
+import { DELETE_SUBSCRIPTION, GET_COMPLETED_TRANSACTIONS } from "../gqlApi/gql";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { MEMBER_SUBSCRIPTION } from "../gqlApi/gql";
 import { useSubscription } from "@apollo/client";
@@ -41,7 +41,24 @@ const Homepage = ({
     }
   );
 
-  // console.log("receivedTransaction", receivedTransaction);
+  const { data: dataDeleted, loading: loadingDeleted } = useSubscription(
+    DELETE_SUBSCRIPTION,
+    {
+      variables: { member: username },
+      onData: (result) => {
+        const deletedTransaction =
+          result.data.data.getDeletedTransactionByMember;
+
+        // User received transaction from group leader, but group leader now cancelled it
+        if (
+          JSON.stringify(receivedTransaction) ===
+          JSON.stringify(deletedTransaction)
+        ) {
+          setReceivedTransaction({});
+        }
+      },
+    }
+  );
 
   const [
     getCompletedTransactions,

@@ -15,8 +15,6 @@ const MemberPaymentSubmodal = ({
     { data: dataUpdate, loading: loadingUpdate, error: errorUpdate },
   ] = useMutation(UPDATE_TRANSACTION);
 
-  console.log(receivedTransacation.transactionId);
-
   const handleTransactionResponse = () => {
     updateTransaction({
       variables: {

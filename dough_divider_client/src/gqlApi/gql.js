@@ -113,6 +113,20 @@ export const MEMBER_SUBSCRIPTION = gql`
   }
 `;
 
+export const DELETE_SUBSCRIPTION = gql`
+  subscription deleteSubscription($member: String!) {
+    getDeletedTransactionByMember(member: $member) {
+      transactionId
+      leader
+      member
+      amount
+      completed
+      note
+      card
+    }
+  }
+`;
+
 export const AUTHENTICATE_USER = gql`
   mutation login($un: String!, $pw: String!) {
     login(username: $un, password: $pw)
