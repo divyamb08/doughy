@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { UPDATE_TRANSACTION } from "../gqlApi/gql";
+import PaymentSection from "../components/PaymentSection";
 
 const MemberPaymentSubmodal = ({
   receivedTransacation,
@@ -30,18 +31,10 @@ const MemberPaymentSubmodal = ({
   };
 
   return (
-    <>
-      <div className="modal-title">Add Payment Info</div>
-      <div>
-        <div>Card Number:</div>
-        <input
-          type="text"
-          onChange={(event) => setMemberCard(event.target.value)}
-          placeholder="Enter card number..."
-        />
-      </div>
-      <button onClick={() => handleTransactionResponse()}>Send!</button>
-    </>
+    <PaymentSection
+      updateCardHandler={(event) => setMemberCard(event.target.value)}
+      sendHandler={() => handleTransactionResponse()}
+    />
   );
 };
 

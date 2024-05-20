@@ -1,4 +1,7 @@
+import UserPayments from "../components/UserPayments";
+import Button from "../components/Button.js";
 import "../styles/Modal.css";
+import "../styles/LeaderModal.css";
 
 const LeaderUsersSubmodal = ({
   payments,
@@ -147,7 +150,7 @@ const LeaderUsersSubmodal = ({
         ></textarea>
         <br />
 
-        <div>
+        <div className="split-schema-wrapper">
           <div>Split Payments:</div>
           <select
             defaultValue="equal"
@@ -157,13 +160,15 @@ const LeaderUsersSubmodal = ({
             <option value="custom">Custom</option>
           </select>
         </div>
+        <br />
 
-        <div>
+        <div className="transaction-total-wrapper">
           <div>Total Payment Amount:</div>
           {splitSchema === "custom" ? (
             <div>{transactionTotal}</div>
           ) : (
             <input
+              className="transaction-total-input"
               type="number"
               step="0.01"
               onChange={(event) => handleTransactionTotalChange(event)}
@@ -172,34 +177,32 @@ const LeaderUsersSubmodal = ({
             />
           )}
         </div>
+        <br />
 
-        <div>
-          {payments.map((payment, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                onChange={(event) => updateUsername(event, index)}
-                defaultValue={payment.member}
-                placeholder="Enter username..."
-              />
-              {splitSchema === "equal" ? (
-                <div>{payment.amount}</div>
-              ) : (
-                <input
-                  type="number"
-                  step="0.01"
-                  onChange={(event) => updateAmount(event, index)}
-                  defaultValue={payment.amount}
-                  placeholder="Enter amount..."
-                />
-              )}
-              <br />
-            </div>
-          ))}
-        </div>
+        <UserPayments
+          payments={payments}
+          splitSchema={splitSchema}
+          updateUsername={updateUsername}
+          updateAmount={updateAmount}
+        />
+
         <div className="transaction-buttons-wrapper">
-          <button onClick={() => addPayment()}>Add User</button>
-          <button onClick={() => submitUserInfo()}>Enter Payment Info</button>
+          <Button
+            height="30px"
+            width="100px"
+            fontSize="16px"
+            color="lightgray"
+            text="Add User"
+            onClickHandler={() => addPayment()}
+          ></Button>
+          <Button
+            height="30px"
+            width="200px"
+            fontSize="16px"
+            color="lightgray"
+            text="Enter Payment Info"
+            onClickHandler={() => submitUserInfo()}
+          ></Button>
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useSubscription } from "@apollo/client";
 import Homepage from "./screens/Homepage";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
+import "./App.css";
 
 const App = () => {
   // Empty string indicates not logged in yet, nonempty means logged in

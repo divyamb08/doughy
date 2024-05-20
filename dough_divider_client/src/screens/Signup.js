@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../gqlApi/gql";
-import "../styles/signup.css";
+import "../styles/Signup.css";
 
 const Signup = ({ setOnSignupScreen }) => {
   const [add_user] = useMutation(ADD_USER);

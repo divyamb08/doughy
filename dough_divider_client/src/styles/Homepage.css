@@ -10,3 +10,52 @@
   height: 100vh;
   width: 100vw;
 }
+
+.logout-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.homepage-header-wrapper {
+  /* margin: 10px 0 0 10px; */
+}
+
+.past-transactions-header-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.past-transactions-header {
+  font-size: 28px;
+  margin-right: 15px;
+}
+
+.transaction-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 250px;
+  border-radius: 15px;
+  border: 1px solid black;
+}
+
+.transaction-wrapper > * {
+  margin: 2px 0;
+}
+
+.transaction-header {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.transaction-data {
+  font-size: 14px;
+}
+
+.past-transactions-wrapper {
+  margin-top: 10px;
+}

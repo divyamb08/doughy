@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { AUTHENTICATE_USER } from "../gqlApi/gql";
-import "../styles/login.css";
+import Button from "../components/Button";
+import "../styles/Login.css";
 
 const Login = ({ username, setUsername, setOnSignupScreen }) => {
   const [authenticate_user] = useMutation(AUTHENTICATE_USER);

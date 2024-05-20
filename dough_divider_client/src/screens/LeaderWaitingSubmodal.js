@@ -5,6 +5,9 @@ import {
   DELETE_TRANSACTION,
 } from "../gqlApi/gql";
 import { useMutation, useSubscription } from "@apollo/client";
+import PaymentStatusSection from "../components/PaymentStatusSection";
+import Button from "../components/Button";
+import "../styles/LeaderModal.css";
 
 // "Submodal" for after the group leader sends transaction &
 // is waiting on the other group members to respond
@@ -101,18 +104,24 @@ const LeaderWaitingSubmodal = ({
     <>
       <div className="modal-title">Sender Note: {senderNote}</div>
       <div>
-        <div>[CURRENT PAYMENTS]</div>
-        <div>Leader | Member | Amount | Completed | Card</div>
-        <br />
-        {payments.map((transaction, index) => (
-          <div key={index}>
-            {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
-            {transaction.completed.toString()} | {transaction.card}
-          </div>
-        ))}
+        <div className="current-payments-header">Current Payments</div>
+        <PaymentStatusSection payments={payments} />
       </div>
+
       {numPaymentsComplete == payments.length && (
-        <button onClick={() => handlePaymentSubmit()}>Submit Payments!</button>
+        <>
+          <Button
+            height="30px"
+            width="200px"
+            fontSize="16px"
+            color="lightgray"
+            text="Submit Payments!"
+            otherClasses=" button-center"
+            onClickHandler={() => handlePaymentSubmit()}
+          ></Button>
+          <br />
+          <br />
+        </>
       )}
     </>
   );

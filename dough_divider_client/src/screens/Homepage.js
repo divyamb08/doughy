@@ -8,8 +8,12 @@ import {
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { useSubscription } from "@apollo/client";
 import LeaderModal from "./LeaderModal";
-import "../styles/Homepage.css";
 import MemberModal from "./MemberModal";
+import Button from "../components/Button";
+import HomepageHeader from "../components/HomepageHeader";
+import PastTransactions from "../components/PastTransactions";
+import "../styles/Homepage.css";
+import "../styles/Button.css";
 
 const Homepage = ({
   username,
@@ -109,11 +113,6 @@ const Homepage = ({
     return <div>Loading past transactions...</div>;
   }
 
-  const handlePastTransactionsRefresh = () => {
-    getCompletedTransactions();
-    setPossibleRefresh(false);
-  };
-
   const handleLougout = () => {
     setUsername("");
   };
@@ -149,33 +148,46 @@ const Homepage = ({
         <div className="homepage-cover"></div>
       )}
 
-      <button onClick={() => handleLougout()}>Logout</button>
-      <br />
-
-      <div>
-        Currently Logged In As: <b>{username}</b>
-      </div>
-      <br />
-
-      <div>[PAST TRANSACTIONS]</div>
-      {possibleRefresh && (
-        <button onClick={() => getCompletedTransactions()}>Refresh</button>
+      {transactionState == "inactive" && (
+        <Button
+          height="30px"
+          width="100px"
+          fontSize="16px"
+          color="lightgray"
+          text="Logout"
+          otherClasses="logout-button"
+          onClickHandler={handleLougout}
+        ></Button>
       )}
+
+      <HomepageHeader
+        username={username}
+        possibleRefresh={possibleRefresh}
+        refreshTransactionsHandler={() => getCompletedTransactions()}
+      />
+
+      <PastTransactions completedTransactions={completedTransactions} />
       <br />
-      {completedTransactions.map((transaction, index) => (
-        <div key={index}>
-          {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
-          {transaction.note}
-        </div>
-      ))}
+
+      <Button
+        height="30px"
+        width="200px"
+        fontSize="12px"
+        color="lightgray"
+        text="Reload Past Transactions"
+        onClickHandler={() => getCompletedTransactions()}
+      ></Button>
       <br />
-      <button onClick={() => getCompletedTransactions()}>
-        Reload Past Transactions
-      </button>
       <br />
-      <button onClick={() => setTransactionState("pending")}>
-        Add New Transaction
-      </button>
+
+      <Button
+        height="30px"
+        width="200px"
+        fontSize="12px"
+        color="lightgray"
+        text="Start New Transaction"
+        onClickHandler={() => setTransactionState("pending")}
+      ></Button>
     </>
   );
 };

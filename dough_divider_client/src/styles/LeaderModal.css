@@ -1,0 +1,66 @@
+.split-schema-wrapper {
+  display: flex;
+}
+
+.split-schema-wrapper > * {
+  margin: 0 5px;
+}
+
+.transaction-total-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.transaction-total-input {
+  margin-top: 5px;
+  text-align: center;
+  height: 20px;
+  width: 50px;
+  border-radius: 15px;
+  border: 1px solid black;
+}
+
+.payment-row-wrapper {
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.payment-row-wrapper > * {
+  margin: 0 20px;
+}
+
+.username-input {
+  padding: 8px;
+  height: 10px;
+  width: 150px;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.button-center {
+  position: absolute;
+  right: calc(50% - 100px);
+}
+
+.current-payments-header {
+  font-size: 24px;
+}
+
+.payment-status-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 200px;
+  border-radius: 20px;
+  border: 1px solid black;
+  margin: 10px 0;
+}
+
+.completed-row {
+  background-color: green;
+}

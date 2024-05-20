@@ -4,6 +4,7 @@ import LeaderPaymentSubmodal from "./LeaderPaymentSubmodal";
 import LeaderWaitingSubmodal from "./LeaderWaitingSubmodal";
 import { useMutation } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../gqlApi/gql";
+import Button from "../components/Button";
 import "../styles/Modal.css";
 
 const LeaderModal = ({
@@ -93,9 +94,16 @@ const LeaderModal = ({
           setTransactionState={setTransactionState}
         />
       )}
-      <button onClick={() => handleTransactionCancel()}>
-        Cancel Transaction
-      </button>
+      <br />
+      <Button
+        height="30px"
+        width="200px"
+        fontSize="16px"
+        color="lightgray"
+        text="Cancel Transaction"
+        otherClasses="button-center"
+        onClickHandler={() => handleTransactionCancel()}
+      ></Button>
     </div>
   );
 };

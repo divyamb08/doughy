@@ -1,0 +1,20 @@
+/*
+  -Some styles pulled from project 2:
+  https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/styles/Button.css
+*/
+
+.button {
+  border-radius: 20px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.button:active {
+  opacity: 0.7;
+  box-shadow: 5px 5px 5px lightgray;
+  transform: translate(-2px, -2px);
+}

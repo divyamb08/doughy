@@ -1,5 +1,7 @@
 import { ADD_TRANSACTION } from "../gqlApi/gql";
 import { useMutation } from "@apollo/client";
+import Button from "../components/Button";
+import PaymentSection from "../components/PaymentSection";
 import "../styles/Modal.css";
 
 const LeaderPaymentSubmodal = ({
@@ -33,18 +35,10 @@ const LeaderPaymentSubmodal = ({
   };
 
   return (
-    <>
-      <div className="modal-title">Add Payment Info</div>
-      <div>
-        <div>Card Number:</div>
-        <input
-          type="text"
-          onChange={(event) => updateLeaderCard(event)}
-          placeholder="Enter card number..."
-        />
-      </div>
-      <button onClick={() => handleTransactionSend()}>Send!</button>
-    </>
+    <PaymentSection
+      updateCardHandler={(event) => updateLeaderCard(event)}
+      sendHandler={() => handleTransactionSend()}
+    />
   );
 };
 

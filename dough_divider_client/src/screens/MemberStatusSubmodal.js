@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { UPDATE_TRANSACTION } from "../gqlApi/gql";
+import Button from "../components/Button.js";
 
 const MemberStatusSubmodal = ({
   receivedTransaction,
@@ -29,12 +30,28 @@ const MemberStatusSubmodal = ({
       <div className="modal-title">
         Transaction Request From: '{receivedTransaction.leader}'
       </div>
+      <br />
       <div>
         <div>Expense: ${receivedTransaction.amount}</div>
         <div>Sender Note: {receivedTransaction.note}</div>
       </div>
-      <button onClick={() => setActiveScreen("payment")}>Accept</button>
-      <button onClick={() => handleTransactionReject()}>Reject</button>
+
+      <Button
+        height="30px"
+        width="100px"
+        fontSize="16px"
+        color="lightgray"
+        text="Accept"
+        onClickHandler={() => setActiveScreen("payment")}
+      ></Button>
+      <Button
+        height="30px"
+        width="100px"
+        fontSize="16px"
+        color="lightgray"
+        text="Reject"
+        onClickHandler={() => handleTransactionReject()}
+      ></Button>
     </>
   );
 };
