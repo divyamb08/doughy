@@ -7,6 +7,7 @@ const MemberModal = ({
   receivedTransaction,
   setReceivedTransaction,
   getCompletedTransactions,
+  setPossibleRefresh,
 }) => {
   const [activeScreen, setActiveScreen] = useState("status");
 
@@ -22,6 +23,7 @@ const MemberModal = ({
           receivedTransacation={receivedTransaction}
           setReceivedTransaction={setReceivedTransaction}
           setActiveScreen={setActiveScreen}
+          setPossibleRefresh={setPossibleRefresh}
         />
       )}
     </div>

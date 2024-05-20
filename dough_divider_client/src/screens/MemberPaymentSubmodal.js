@@ -6,6 +6,7 @@ const MemberPaymentSubmodal = ({
   receivedTransacation,
   setReceivedTransaction,
   setActiveScreen,
+  setPossibleRefresh,
 }) => {
   const [memberCard, setMemberCard] = useState(receivedTransacation.card);
 
@@ -27,6 +28,7 @@ const MemberPaymentSubmodal = ({
 
     setReceivedTransaction({});
     setActiveScreen("status");
+    setPossibleRefresh(true);
   };
 
   return (

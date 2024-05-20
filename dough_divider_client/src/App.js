@@ -5,7 +5,9 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 
 const App = () => {
-  const [username, setUsername] = useState("Group01Leader");
+  // Empty string indicates not logged in yet, nonempty means logged in
+  const [username, setUsername] = useState("");
+  const [onSignupScreen, setOnSignupScreen] = useState(false);
 
   /*
     'inactive':  User has currently not initiated any transactions
@@ -17,14 +19,28 @@ const App = () => {
   return (
     <>
       {username === "" ? (
-        <div>Login Screen</div>
+        !onSignupScreen ? (
+          <Login
+            username={username}
+            setUsername={setUsername}
+            setOnSignupScreen={setOnSignupScreen}
+          />
+        ) : (
+          <Signup setOnSignupScreen={setOnSignupScreen} />
+        )
       ) : (
-        <Homepage
-          username={username}
-          setUsername={setUsername}
-          transactionState={transactionState}
-          setTransactionState={setTransactionState}
-        />
+        <>
+          <div>
+            Currently Logged In As: <b>{username}</b>
+          </div>
+          <br />
+          <Homepage
+            username={username}
+            setUsername={setUsername}
+            transactionState={transactionState}
+            setTransactionState={setTransactionState}
+          />
+        </>
       )}
     </>
 

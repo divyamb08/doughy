@@ -30,16 +30,8 @@ export const ADD_COMPLETED_TRANSACTION = gql`
 `;
 
 export const DELETE_TRANSACTION = gql`
-  mutation delete($transactionId: ID!) {
-    deleteTransaction(transactionId: $transactionId) {
-      transaction {
-        transactionId
-        leader
-        member
-        amount
-        note
-      }
-    }
+  mutation delete($leader: String!, $member: String!) {
+    deleteTransaction(leader: $leader, member: $member)
   }
 `;
 
@@ -122,14 +114,26 @@ export const MEMBER_SUBSCRIPTION = gql`
 `;
 
 export const AUTHENTICATE_USER = gql`
-    mutation login($un: String!, $pw: String!) {
-        login(username: $un, password: $pw)
-    }
+  mutation login($un: String!, $pw: String!) {
+    login(username: $un, password: $pw)
+  }
 `;
 
 export const ADD_USER = gql`
-  mutation addUser($firstName: String!, $lastName: String!, $username: String!, $email: String!, $password: String!) {
-    addUser(firstName: $firstName, lastName: $lastName, username: $username, email: $email, password: $password) {
+  mutation addUser(
+    $firstName: String!
+    $lastName: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    addUser(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
       first_name
       last_name
       username
@@ -138,4 +142,3 @@ export const ADD_USER = gql`
     }
   }
 `;
-

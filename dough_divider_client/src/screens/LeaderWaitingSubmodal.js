@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { ADD_COMPLETED_TRANSACTION, LEADER_SUBSCRIPTION } from "../gqlApi/gql";
+import {
+  ADD_COMPLETED_TRANSACTION,
+  LEADER_SUBSCRIPTION,
+  DELETE_TRANSACTION,
+} from "../gqlApi/gql";
 import { useMutation, useSubscription } from "@apollo/client";
 
 // "Submodal" for after the group leader sends transaction &
@@ -11,6 +15,7 @@ const LeaderWaitingSubmodal = ({
   senderNote,
   setTransactionState,
   memberLookupInPayments,
+  setMemberLookup,
   setActiveScreen,
   getCompletedTransactions,
 }) => {
@@ -45,6 +50,9 @@ const LeaderWaitingSubmodal = ({
     { data: dataCompleted, loading: loadingCompleted },
   ] = useMutation(ADD_COMPLETED_TRANSACTION);
 
+  const [deleteTransaction, { data: dataDeleted, loading: loadingDeleted }] =
+    useMutation(DELETE_TRANSACTION);
+
   const handlePaymentSubmit = () => {
     setTransactionState("inactive");
     setActiveScreen("users");
@@ -52,6 +60,15 @@ const LeaderWaitingSubmodal = ({
     for (let i = 0; i < payments.length; i++) {
       const payment = payments[i];
 
+      // Delete transaction from active transactions table
+      deleteTransaction({
+        variables: {
+          leader: payment.leader,
+          member: payment.member,
+        },
+      });
+
+      // Add transaction to completed list
       addCompletedTransaction({
         variables: {
           leader: payment.leader,
@@ -59,6 +76,20 @@ const LeaderWaitingSubmodal = ({
           amount: payment.amount,
           note: senderNote,
         },
+      });
+
+      // Clear out state vars for possible (future) transactions
+      setPayments([
+        {
+          leader: username,
+          member: username,
+          amount: 0,
+          completed: true,
+          card: "N/A",
+        },
+      ]);
+      setMemberLookup({
+        username: 0,
       });
     }
 

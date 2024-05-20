@@ -28,7 +28,6 @@ def get_all_transactions(*_):
 
 @query.field("getAllCompletedTransactions")
 async def get_all_transactions(_, info, member):
-    await asyncio.sleep(0.5) # TEMP
     return CompletedTransaction.objects.filter(member=member)
 
 @query.field("getAllUsers")
@@ -138,16 +137,10 @@ async def update_transaction(_, info, transactionId, input):
     }
 
 @mutation.field("deleteTransaction")
-def delete_transaction(_, info, transactionId):
-  transaction = Transaction.objects.get(transactionId=transactionId)
-  deletedId = str(transaction.transactionId)
-
+def delete_transaction(_, info, leader, member):
+  transaction = Transaction.objects.get(leader=leader, member=member)
   transaction.delete()
-
-  transaction.transactionId = deletedId
-  return {
-    "transaction": transaction
-  }
+  return True
 
 subscription = SubscriptionType()
 

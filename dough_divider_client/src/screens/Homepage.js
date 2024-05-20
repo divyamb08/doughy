@@ -28,17 +28,20 @@ const Homepage = ({
   // Transaction received from another user (added as a group member)
   const [receivedTransaction, setReceivedTransaction] = useState({});
 
+  // After user receives a payment & (might) need to refresh past transactions (i.e. if completed by group leader)
+  const [possibleRefresh, setPossibleRefresh] = useState(false);
+
   const { data: dataMember, loading: loadingMember } = useSubscription(
     MEMBER_SUBSCRIPTION,
     {
-      variables: { member: "User01" }, // TEMP
+      variables: { member: username },
       onData: (result) => {
         setReceivedTransaction(result.data.data.getTransactionByMember);
       },
     }
   );
 
-  console.log("receivedTransaction", receivedTransaction);
+  // console.log("receivedTransaction", receivedTransaction);
 
   const [
     getCompletedTransactions,
@@ -49,6 +52,14 @@ const Homepage = ({
     onCompleted: (result) => {
       const orderedTransactions = [...result.getAllCompletedTransactions];
       orderedTransactions.reverse();
+
+      const numTransactionsBefore = completedTransactions.length;
+      const numTransactionsAfter = orderedTransactions.length;
+
+      // i.e.) Group leader completed transaction on their end
+      if (possibleRefresh && numTransactionsBefore != numTransactionsAfter) {
+        setPossibleRefresh(false);
+      }
 
       setCompletedTransactions(orderedTransactions);
     },
@@ -62,6 +73,11 @@ const Homepage = ({
     return <div>Loading past transactions...</div>;
   }
 
+  const handlePastTransactionsRefresh = () => {
+    getCompletedTransactions();
+    setPossibleRefresh(false);
+  };
+
   return (
     <>
       {Object.keys(receivedTransaction).length !== 0 && (
@@ -69,6 +85,7 @@ const Homepage = ({
           receivedTransaction={receivedTransaction}
           setReceivedTransaction={setReceivedTransaction}
           getCompletedTransactions={getCompletedTransactions}
+          setPossibleRefresh={setPossibleRefresh}
         />
       )}
 
@@ -93,6 +110,9 @@ const Homepage = ({
       )}
 
       <div>[PAST TRANSACTIONS]</div>
+      {possibleRefresh && (
+        <button onClick={() => getCompletedTransactions()}>Refresh</button>
+      )}
       <br />
       {completedTransactions.map((transaction, index) => (
         <div key={index}>

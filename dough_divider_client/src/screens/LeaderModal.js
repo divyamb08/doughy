@@ -28,6 +28,7 @@ const LeaderModal = ({
           senderNote={senderNote}
           setTransactionState={setTransactionState}
           memberLookupInPayments={memberLookupInPayments}
+          setMemberLookup={setMemberLookup}
           setActiveScreen={setActiveScreen}
           getCompletedTransactions={getCompletedTransactions}
         />

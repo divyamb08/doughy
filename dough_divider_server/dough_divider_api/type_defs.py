@@ -8,7 +8,7 @@ type_defs = """
     type Mutation {
         addTransaction(input: TransactionInput!): TransactionPayload
         updateTransaction(transactionId: ID!, input: TransactionUpdateInput!): TransactionPayload
-        deleteTransaction(transactionId: ID!): TransactionPayload
+        deleteTransaction(leader: String!, member: String!): Boolean
         deleteAllTransactions: Boolean!
         addCompletedTransaction(input: CompletedTransactionInput!): CompletedTransaction
         deleteAllCompletedTransactions: Boolean!
