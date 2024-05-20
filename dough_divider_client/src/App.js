@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { GET_COMPLETED_TRANSACTIONS } from "./gqlApi/gql";
 import { useQuery, useMutation, useSubscription } from "@apollo/client";
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
 
 const App = () => {
   const [username, setUsername] = useState("User01");
@@ -24,14 +26,17 @@ const App = () => {
   }
 
   return (
-    <>
-      {completedTransactions.map((transaction, index) => (
-        <div key={index}>
-          {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
-          {transaction.note}
-        </div>
-      ))}
-    </>
+    // <Login username={username}
+    //   setUsername={setUsername} />
+    <Signup />
+    // <>
+    //   {completedTransactions.map((transaction, index) => (
+    //     <div key={index}>
+    //       {transaction.leader} | {transaction.member} | {transaction.amount} |{" "}
+    //       {transaction.note}
+    //     </div>
+    //   ))}
+    // </>
   );
 };
 

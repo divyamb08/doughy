@@ -82,6 +82,12 @@ def add_user(_, info, username, email, password, firstName, lastName):
    user.save()
    return user
 
+@mutation.field("deleteUser")
+def add_user(_, info, username):
+  user = User.objects.get(username=username)
+  user.delete()
+  return True
+
 @mutation.field("login")
 def resolve_login(_, info, username, password):
     if authenticate(username=username, password=password):

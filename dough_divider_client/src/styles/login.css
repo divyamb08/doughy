@@ -1,0 +1,47 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-title {
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-textarea {
+    margin-bottom: 20px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    padding-left: 5px;
+    resize: none;
+}
+
+.login-submit-button {
+    border-radius: 5px;
+    height: 30px;
+    font-size: 20px;
+}
+
+.login-signup {
+    font-size: 15px;
+    margin-top: 50px;
+}
+
+.login-signup-url {
+    text-decoration: none;
+}
+
+.login-error-message {
+    color: red;
+    margin-bottom: 10px;
+}
