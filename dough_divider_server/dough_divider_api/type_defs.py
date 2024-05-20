@@ -1,5 +1,6 @@
 type_defs = """
     type Query {
+        getTransactionByMember(member: String): [TransactionWithId]!
         getAllTransactions: [TransactionWithId]!
         getAllCompletedTransactions(member: String!): [CompletedTransaction]!
         getAllUsers: [User]!

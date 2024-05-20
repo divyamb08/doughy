@@ -1,5 +1,19 @@
 import { gql } from "@apollo/client";
 
+export const GET_ACTIVE_TRANSACTION = gql`
+  query getTransactionByMember($member: String!) {
+    getTransactionByMember(member: $member) {
+      transactionId
+      leader
+      member
+      amount
+      completed
+      note
+      card
+    }
+  }
+`;
+
 export const GET_COMPLETED_TRANSACTIONS = gql`
   query allCompleted($member: String!) {
     getAllCompletedTransactions(member: $member) {

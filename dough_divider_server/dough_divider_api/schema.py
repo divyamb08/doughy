@@ -22,6 +22,11 @@ pubsub = Broadcast("memory://")
 queues = []
 
 query = QueryType()
+
+@query.field("getTransactionByMember")
+def get_transaction_by_member(_, info, member):
+  return Transaction.objects.filter(member=member)
+
 @query.field("getAllTransactions")
 def get_all_transactions(*_):
     return Transaction.objects.all()

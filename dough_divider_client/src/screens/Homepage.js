@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { DELETE_SUBSCRIPTION, GET_COMPLETED_TRANSACTIONS } from "../gqlApi/gql";
+import {
+  GET_ACTIVE_TRANSACTION,
+  MEMBER_SUBSCRIPTION,
+  DELETE_SUBSCRIPTION,
+  GET_COMPLETED_TRANSACTIONS,
+} from "../gqlApi/gql";
 import { useQuery, useLazyQuery } from "@apollo/client";
-import { MEMBER_SUBSCRIPTION } from "../gqlApi/gql";
 import { useSubscription } from "@apollo/client";
 import LeaderModal from "./LeaderModal";
 import "../styles/Homepage.css";
@@ -27,6 +31,21 @@ const Homepage = ({
 
   // Transaction received from another user (added as a group member)
   const [receivedTransaction, setReceivedTransaction] = useState({});
+
+  // TODO
+  const { data: dataInit, loading: loadingInit } = useQuery(
+    GET_ACTIVE_TRANSACTION,
+    {
+      variables: { member: username },
+      onCompleted: (result) => {
+        if (result.getTransactionByMember.length == 0) {
+          return;
+        }
+
+        setReceivedTransaction(result.getTransactionByMember[0]);
+      },
+    }
+  );
 
   // After user receives a payment & (might) need to refresh past transactions (i.e. if completed by group leader)
   const [possibleRefresh, setPossibleRefresh] = useState(false);
