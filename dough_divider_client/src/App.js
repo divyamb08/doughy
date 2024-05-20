@@ -30,10 +30,6 @@ const App = () => {
         )
       ) : (
         <>
-          <div>
-            Currently Logged In As: <b>{username}</b>
-          </div>
-          <br />
           <Homepage
             username={username}
             setUsername={setUsername}

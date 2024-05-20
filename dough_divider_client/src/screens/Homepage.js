@@ -114,6 +114,10 @@ const Homepage = ({
     setPossibleRefresh(false);
   };
 
+  const handleLougout = () => {
+    setUsername("");
+  };
+
   return (
     <>
       {Object.keys(receivedTransaction).length !== 0 && (
@@ -144,6 +148,14 @@ const Homepage = ({
         transactionState !== "inactive") && (
         <div className="homepage-cover"></div>
       )}
+
+      <button onClick={() => handleLougout()}>Logout</button>
+      <br />
+
+      <div>
+        Currently Logged In As: <b>{username}</b>
+      </div>
+      <br />
 
       <div>[PAST TRANSACTIONS]</div>
       {possibleRefresh && (
