@@ -1,10 +1,12 @@
 import "../styles/LeaderModal.css";
-
+// prettier-ignore
 const PaymentStatusRow = ({ transaction }) => {
+  const rowClass = "payment-status-row " + 
+    (transaction.completed ? "completed-row" : 
+      (transaction.card === "N/A" ? "waiting-row" : "rejected-row"));
   return (
     <div
-      className={
-        "payment-status-row" + (transaction.completed ? " completed-row" : "")
+      className={rowClass
       }
     >
       <div>Member: {transaction.member}</div>

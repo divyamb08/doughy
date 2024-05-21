@@ -86,6 +86,9 @@ const LeaderUsersSubmodal = ({
       0
     );
     setTransactionTotal(newTransactionTotal);
+    // update user and amt
+    let newPayments = [...payments];
+
   };
 
   ////

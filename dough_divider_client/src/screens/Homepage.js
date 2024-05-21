@@ -12,6 +12,8 @@ import MemberModal from "./MemberModal";
 import Button from "../components/Button";
 import HomepageHeader from "../components/HomepageHeader";
 import PastTransactions from "../components/PastTransactions";
+import TransactionDetailModal from "../components/TransactionDetailCard";
+import Footer from "../components/Footer";
 import "../styles/Homepage.css";
 import "../styles/Button.css";
 
@@ -35,6 +37,9 @@ const Homepage = ({
 
   // Transaction received from another user (added as a group member)
   const [receivedTransaction, setReceivedTransaction] = useState({});
+
+  //transaction detail card
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
   // Check for any active transactions that were received (from a group leader) before you logged in
   const { data: dataInit, loading: loadingInit } = useQuery(
@@ -118,7 +123,8 @@ const Homepage = ({
   };
 
   return (
-    <>
+    <div className="homepage">
+      {/* reciever start */}
       {Object.keys(receivedTransaction).length !== 0 && (
         <MemberModal
           receivedTransaction={receivedTransaction}
@@ -127,7 +133,7 @@ const Homepage = ({
           setPossibleRefresh={setPossibleRefresh}
         />
       )}
-
+      {/* reciever end */}
       {/* Code & style reference from project 2:
       https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/App.js#L64  */}
       {transactionState !== "inactive" && (
@@ -148,47 +154,40 @@ const Homepage = ({
         <div className="homepage-cover"></div>
       )}
 
-      {transactionState == "inactive" && (
-        <Button
-          height="30px"
-          width="100px"
-          fontSize="16px"
-          color="lightgray"
-          text="Logout"
-          otherClasses="logout-button"
-          onClickHandler={handleLougout}
-        ></Button>
-      )}
-
       <HomepageHeader
         username={username}
         possibleRefresh={possibleRefresh}
         refreshTransactionsHandler={() => getCompletedTransactions()}
+        handleLougout={handleLougout}
+        transactionState={transactionState}
       />
 
-      <PastTransactions completedTransactions={completedTransactions} />
-      <br />
+      <div className="main">
+        <div className="past-transactions-header">Past Transactions</div>
+        <hr />
 
-      <Button
-        height="30px"
-        width="200px"
-        fontSize="12px"
-        color="lightgray"
-        text="Reload Past Transactions"
-        onClickHandler={() => getCompletedTransactions()}
-      ></Button>
-      <br />
-      <br />
+        <PastTransactions
+          completedTransactions={completedTransactions}
+          setSelectedTransaction={setSelectedTransaction}
+        />
 
-      <Button
-        height="30px"
-        width="200px"
-        fontSize="12px"
-        color="lightgray"
-        text="Start New Transaction"
-        onClickHandler={() => setTransactionState("pending")}
-      ></Button>
-    </>
+        <br />
+        <>
+          {selectedTransaction && (
+            <TransactionDetailModal
+              transaction={selectedTransaction}
+              onClose={() => setSelectedTransaction(null)}
+            />
+          )}
+        </>
+
+        <br />
+      </div>
+      <Footer
+        getCompletedTransactions={getCompletedTransactions}
+        setTransactionState={setTransactionState}
+      />
+    </div>
   );
 };
 

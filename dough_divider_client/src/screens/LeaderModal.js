@@ -38,6 +38,15 @@ const LeaderModal = ({
             member: payment.member,
           },
         });
+        setPayments([
+          {
+            leader: username,
+            member: username,
+            amount: 0,
+            completed: true,
+            card: "N/A",
+          },
+        ]);
       }
     }
 

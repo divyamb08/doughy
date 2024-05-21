@@ -103,7 +103,7 @@ const LeaderWaitingSubmodal = ({
   return (
     <>
       <div className="modal-title">Sender Note: {senderNote}</div>
-      <div>
+      <div className="main-payments">
         <div className="current-payments-header">Current Payments</div>
         <PaymentStatusSection payments={payments} />
       </div>

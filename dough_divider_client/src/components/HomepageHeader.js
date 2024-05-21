@@ -5,26 +5,42 @@ const HomepageHeader = ({
   username,
   possibleRefresh,
   refreshTransactionsHandler,
+  handleLougout,
+  transactionState,
 }) => {
   return (
     <div className="homepage-header-wrapper">
-      <div>
-        Currently Logged In As: <b>{username}</b>
-      </div>
+      <div className="navbar">
+        <div className="homepage-user">
+          Currently Logged In As: <b>{username}</b>
+        </div>
 
-      <div className="past-transactions-header-wrapper">
-        <div className="past-transactions-header">Past Transactions</div>
-        {possibleRefresh && (
+        <div className="past-transactions-header-wrapper">
+          {possibleRefresh && (
+            <Button
+              height="30px"
+              width="100px"
+              fontSize="16px"
+              color="lightgray"
+              text="Refresh"
+              onClickHandler={refreshTransactionsHandler}
+            ></Button>
+          )}
+        </div>
+
+        {transactionState == "inactive" && (
           <Button
             height="30px"
             width="100px"
             fontSize="16px"
             color="lightgray"
-            text="Refresh"
-            onClickHandler={refreshTransactionsHandler}
+            text="Logout"
+            otherClasses="logout-button"
+            onClickHandler={handleLougout}
           ></Button>
         )}
       </div>
+      <hr className="navLine" />
     </div>
   );
 };

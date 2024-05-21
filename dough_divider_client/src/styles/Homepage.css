@@ -2,9 +2,18 @@
   Some styles referenced from project 2 here:
   https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/App.css
 */
-
+.homepage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  /* justify-content: center; */
+  background-color: #F1FFE0;
+  overflow: hidden;
+}
 .homepage-cover {
-  background-color: #f5f5dc;;
+  background-color: #000000;
   opacity: 0.5;
   position: absolute;
   height: 100vh;
@@ -15,21 +24,60 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  vertical-align: middle;
 }
-
+.navbar{
+  height: 35px;
+}
+.main{
+  justify-content: center;
+  height: auto;
+  flex-grow: 0;
+  overflow-y: auto;
+}
+.main::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+.homepage-user{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  vertical-align: middle;
+}
 .homepage-header-wrapper {
   /* margin: 10px 0 0 10px; */
+  position: sticky;
+  margin-top: 2px;
 }
 
 .past-transactions-header-wrapper {
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .past-transactions-header {
+  margin-top: 20px;
   font-size: 28px;
   margin-right: 15px;
+}
+.navLine{
+  position: sticky;
+  top:50px;
+  justify-self: center;
+  margin-top: 15px;
+  border: 0;  
+  width: 95vw;
+  height: 1px;  
+  background-color: #000000;
+}
+.past-transactions-header + hr {
+  border: 0;  
+  width: 250px;/* Removes the default border */
+  height: 1px;  /* Sets the height of the line */
+  background-color: #000000;  /* Sets the color of the line */
+  margin-top: 10px;  /* Adds space above the line */
+  /* Adds space below the line */
 }
 
 .transaction-wrapper {

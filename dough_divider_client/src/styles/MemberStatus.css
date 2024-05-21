@@ -1,0 +1,78 @@
+
+.modal-header{
+    height: 40%;
+    background-color: red;
+}
+.modal-title-member {
+    background-color: red; /* Red background */
+    color: black; /* White text */
+    height: 40%;
+    font-size: 52px;
+    padding: 10px;
+    text-align: center;
+    border-top-left-radius: 15px; 
+    border-top-right-radius: 15px;
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+
+  }
+  
+  .small-text {
+    font-size: 12px;
+    margin-top: 5px;
+    height: 20%;
+  }
+  
+  .amount-text {
+    color: black;
+    background-color: red;
+    height: 35%;
+    font-size: 28px; /* Larger font size for the amount */
+    padding: 20px 10px;
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+
+  }
+  
+  .note, .note-text {
+    
+    margin: 20px;
+    padding: 5px;  
+  }
+  
+  .note {
+    font-weight: bold;
+  }
+  
+  .note-text {
+    background-color: #F1FFE0;
+    border-radius: 10px; 
+    padding: 10px;
+    white-space: pre-wrap; /* Ensures that spaces and breaks are preserved */
+    border: 1px;
+    border-color: black;
+  }
+  
+
+  .acptBtn {
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .acptBtn p{
+    color: #4CD966;
+  }
+
+  .rejBtn {
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .rejBtn p{
+    color: #ff0000;
+  }
+  
+  
