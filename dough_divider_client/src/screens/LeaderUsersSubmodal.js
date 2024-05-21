@@ -40,7 +40,7 @@ const LeaderUsersSubmodal = ({
 
     const totalTransactionChange = newAmount - parseFloat(newPayment["amount"]);
     const newTransactionTotal =
-      Math.floor((transactionTotal + totalTransactionChange) * 100) / 100;
+      Math.ceil((transactionTotal + totalTransactionChange) * 100) / 100;
     setTransactionTotal(newTransactionTotal);
 
     truncateDecimals(event, newAmount); // Prevent UI from going past 2 decimals
@@ -79,15 +79,27 @@ const LeaderUsersSubmodal = ({
 
   /////
   const removePayment = (index) => {
-    const filteredPayments = payments.filter((_, idx) => idx !== index);
+    let filteredPayments = payments.filter((_, idx) => idx !== index);
+
+    if (splitSchema === "equal") {
+      const newAmounts = getNewEqualAmounts(
+        transactionTotal,
+        payments.length - 1
+      );
+
+      for (let i = 0; i < filteredPayments.length; i++) {
+        filteredPayments[i].amount = newAmounts[i];
+      }
+    } else {
+      let filteredPayments = payments.filter((_, idx) => idx !== index);
+      const newTransactionTotal = filteredPayments.reduce(
+        (acc, index) => acc + parseFloat(index.amount),
+        0
+      );
+      setTransactionTotal(newTransactionTotal);
+    }
+
     setPayments(filteredPayments);
-    const newTransactionTotal = filteredPayments.reduce(
-      (acc, index) => acc + parseFloat(index.amount),
-      0
-    );
-    setTransactionTotal(newTransactionTotal);
-    // update user and amt
-    let newPayments = [...payments];
   };
 
   ////
@@ -122,7 +134,7 @@ const LeaderUsersSubmodal = ({
 
   const getNewEqualAmounts = (newTotal, n) => {
     // Ref: https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
-    const subAmount = Math.floor((newTotal * 100) / n) / 100;
+    const subAmount = Math.ceil((newTotal * 100) / n) / 100;
 
     let newPayments = [];
     let total = 0;
@@ -132,7 +144,7 @@ const LeaderUsersSubmodal = ({
       total += subAmount;
     }
 
-    newPayments[n - 1] = Math.floor((newTotal - total) * 100) / 100;
+    newPayments[n - 1] = Math.ceil((newTotal - total) * 100) / 100;
     return newPayments;
   };
 
@@ -140,34 +152,20 @@ const LeaderUsersSubmodal = ({
     setSplitSchema(event.target.value);
     let newPayments = [...payments];
 
-    const newEqualAmounts = getNewEqualAmounts(
-      transactionTotal,
-      payments.length
-    );
-
-    if (event.target.value === "custom") {
-      //wierd stuff when going from equal to custom
-      //just set all to 0
-      for (let i = 0; i < newPayments.length; i++) {
-        newPayments[i].amount = 0;
-        newEqualAmounts[i] = 0;
-        setTransactionTotal(0);
-      }
-      return;
-    }
-    //
-
+    // On a schema change (equal to custom or vice versa), just zero out all payments
     for (let i = 0; i < newPayments.length; i++) {
       newPayments[i].amount = 0;
     }
-    setTransactionTotal(0);
 
+    setTransactionTotal(0);
     setPayments(newPayments);
   };
 
   const truncateDecimals = (event, value) => {
-    event.target.value = Math.floor(value * 100) / 100;
+    event.target.value = Math.ceil(value * 100) / 100;
   };
+
+  console.log(payments);
 
   return (
     <>
@@ -194,7 +192,7 @@ const LeaderUsersSubmodal = ({
         <br />
 
         <div className="transaction-total-wrapper">
-          <div style={{paddingBottom: "10px"}}>Total Payment Amount:</div>
+          <div style={{ paddingBottom: "10px" }}>Total Payment Amount:</div>
           {splitSchema === "custom" ? (
             <div>{transactionTotal}</div>
           ) : (

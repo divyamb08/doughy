@@ -13,7 +13,7 @@ import json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .type_defs import type_defs
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rest.settings')
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -72,15 +72,13 @@ def delete_all_transactions(_, info):
 
 @mutation.field("addCompletedTransaction")
 def add_completed_transaction(_, info, input):
-  month = datetime.now().month
-  day = datetime.now().day
-
   completedTransaction = CompletedTransaction(
     leader=input["leader"],
     member=input["member"],
     amount=input["amount"],
     note=input["note"],
-    date=f"{month}-{day}"
+    # Convert to central time
+    datetime=(datetime.now(timezone.utc) - timedelta(hours=5)).strftime("%m-%d, %I:%M %p")
   )
   completedTransaction.save()
   return completedTransaction
