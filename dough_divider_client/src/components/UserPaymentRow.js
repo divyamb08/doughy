@@ -1,4 +1,5 @@
 import "../styles/LeaderModal.css";
+import delBut from "../assets/delete.png";
 
 const UserPaymentRow = ({
   payment,
@@ -6,6 +7,7 @@ const UserPaymentRow = ({
   updateUsername,
   updateAmount,
   index,
+  removePayment,
 }) => {
   return (
     <div className="payment-row-wrapper" key={index}>
@@ -28,6 +30,22 @@ const UserPaymentRow = ({
           placeholder="Enter amount..."
         />
       )}
+      <button
+        onClick={() => removePayment(index)}
+        style={{
+          width: "100%",
+          padding: 0,
+          border: "none",
+          background: "none",
+        }}
+      >
+        <img
+          src={delBut}
+          alt="buttonpng"
+          style={{ height: "30px", verticalAlign: "middle" }}
+          border="0"
+        />
+      </button>
     </div>
   );
 };

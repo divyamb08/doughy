@@ -6,6 +6,7 @@ const UserPayments = ({
   splitSchema,
   updateUsername,
   updateAmount,
+  removePayment,
 }) => {
   return (
     <div>
@@ -17,6 +18,7 @@ const UserPayments = ({
           updateUsername={updateUsername}
           updateAmount={updateAmount}
           index={index}
+          removePayment={removePayment}
         />
       ))}
     </div>

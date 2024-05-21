@@ -2,6 +2,10 @@ import UserPayments from "../components/UserPayments";
 import Button from "../components/Button.js";
 import "../styles/Modal.css";
 import "../styles/LeaderModal.css";
+import addUsr from "../assets/user_add.png";
+import createTxn from "../assets/create_txn.png";
+
+//
 
 const LeaderUsersSubmodal = ({
   payments,
@@ -48,10 +52,7 @@ const LeaderUsersSubmodal = ({
   };
 
   const addPayment = () => {
-    const newEqualAmounts = getNewEqualAmounts(
-      transactionTotal,
-      payments.length + 1
-    );
+    //only if equal split on user
     let newPayments = [
       ...payments,
       {
@@ -62,13 +63,32 @@ const LeaderUsersSubmodal = ({
         card: "N/A",
       },
     ];
+    if (splitSchema === "equal") {
+      const newEqualAmounts = getNewEqualAmounts(
+        transactionTotal,
+        payments.length + 1
+      );
 
-    for (let i = 0; i < newPayments.length; i++) {
-      newPayments[i].amount = newEqualAmounts[i];
+      for (let i = 0; i < newPayments.length; i++) {
+        newPayments[i].amount = newEqualAmounts[i];
+      }
     }
 
     setPayments(newPayments);
   };
+
+  /////
+  const removePayment = (index) => {
+    const filteredPayments = payments.filter((_, idx) => idx !== index);
+    setPayments(filteredPayments);
+    const newTransactionTotal = filteredPayments.reduce(
+      (acc, index) => acc + parseFloat(index.amount),
+      0
+    );
+    setTransactionTotal(newTransactionTotal);
+  };
+
+  ////
 
   const submitUserInfo = () => {
     let newMemberLookup = {};
@@ -116,16 +136,24 @@ const LeaderUsersSubmodal = ({
 
   const handleSplitSchemaChange = (event) => {
     setSplitSchema(event.target.value);
-
-    if (event.target.value == "custom") {
-      return;
-    }
+    let newPayments = [...payments];
 
     const newEqualAmounts = getNewEqualAmounts(
       transactionTotal,
       payments.length
     );
-    let newPayments = [...payments];
+
+    if (event.target.value == "custom") {
+      //wierd stuff when going from equal to custom
+      //just set all to 0
+      for (let i = 0; i < newPayments.length; i++) {
+        newPayments[i].amount = 0;
+        newEqualAmounts[i] = 0;
+        setTransactionTotal(0);
+      }
+      return;
+    }
+    //
 
     for (let i = 0; i < newPayments.length; i++) {
       newPayments[i].amount = newEqualAmounts[i];
@@ -184,25 +212,28 @@ const LeaderUsersSubmodal = ({
           splitSchema={splitSchema}
           updateUsername={updateUsername}
           updateAmount={updateAmount}
+          removePayment={removePayment}
         />
 
         <div className="transaction-buttons-wrapper">
-          <Button
-            height="30px"
-            width="100px"
-            fontSize="16px"
-            color="lightgray"
-            text="Add User"
-            onClickHandler={() => addPayment()}
-          ></Button>
-          <Button
-            height="30px"
-            width="200px"
-            fontSize="16px"
-            color="lightgray"
-            text="Enter Payment Info"
-            onClickHandler={() => submitUserInfo()}
-          ></Button>
+          <button onClick={() => addPayment()} className="usrButton">
+            <img
+              src={addUsr}
+              alt="buttonpng"
+              style={{ height: "30px", verticalAlign: "middle" }}
+              border="0"
+            />
+            <p>Add User</p>
+          </button>
+          <button onClick={() => submitUserInfo()} className="usrButton">
+            <img
+              src={createTxn}
+              alt="buttonpng"
+              style={{ height: "30px", verticalAlign: "middle" }}
+              border="0"
+            />
+            <p>Goto Payment</p>
+          </button>
         </div>
       </div>
     </>

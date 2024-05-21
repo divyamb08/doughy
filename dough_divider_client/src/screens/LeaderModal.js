@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../gqlApi/gql";
 import Button from "../components/Button";
 import "../styles/Modal.css";
+import cancelPay from "../assets/cancel.png";
 
 const LeaderModal = ({
   username,
@@ -59,6 +60,25 @@ const LeaderModal = ({
   // https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/components/EditModal.js#L96
   return (
     <div className="modal">
+      <button
+        style={{
+          width: "40px",
+          position: "relative",
+          top: "15px",
+          right: "-15px",
+        }}
+        className="usrButton"
+        text="Cancel Transaction"
+        otherClasses="button-center"
+        onClick={() => handleTransactionCancel()}
+      >
+        <img
+          src={cancelPay}
+          alt="buttonpng"
+          style={{ height: "30px", verticalAlign: "middle" }}
+          border="0"
+        />
+      </button>
       {transactionState == "active" ? (
         <LeaderWaitingSubmodal
           username={username}
@@ -95,15 +115,6 @@ const LeaderModal = ({
         />
       )}
       <br />
-      <Button
-        height="30px"
-        width="200px"
-        fontSize="16px"
-        color="lightgray"
-        text="Cancel Transaction"
-        otherClasses="button-center"
-        onClickHandler={() => handleTransactionCancel()}
-      ></Button>
     </div>
   );
 };
