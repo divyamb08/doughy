@@ -88,7 +88,6 @@ const LeaderUsersSubmodal = ({
     setTransactionTotal(newTransactionTotal);
     // update user and amt
     let newPayments = [...payments];
-
   };
 
   ////
@@ -159,8 +158,9 @@ const LeaderUsersSubmodal = ({
     //
 
     for (let i = 0; i < newPayments.length; i++) {
-      newPayments[i].amount = newEqualAmounts[i];
+      newPayments[i].amount = 0;
     }
+    setTransactionTotal(0);
 
     setPayments(newPayments);
   };
