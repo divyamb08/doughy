@@ -152,34 +152,20 @@ const LeaderUsersSubmodal = ({
     setSplitSchema(event.target.value);
     let newPayments = [...payments];
 
-    const newEqualAmounts = getNewEqualAmounts(
-      transactionTotal,
-      payments.length
-    );
-
-    if (event.target.value === "custom") {
-      //wierd stuff when going from equal to custom
-      //just set all to 0
-      for (let i = 0; i < newPayments.length; i++) {
-        newPayments[i].amount = 0;
-        newEqualAmounts[i] = 0;
-        setTransactionTotal(0);
-      }
-      return;
-    }
-    //
-
+    // On a schema change (equal to custom or vice versa), just zero out all payments
     for (let i = 0; i < newPayments.length; i++) {
       newPayments[i].amount = 0;
     }
-    setTransactionTotal(0);
 
+    setTransactionTotal(0);
     setPayments(newPayments);
   };
 
   const truncateDecimals = (event, value) => {
     event.target.value = Math.ceil(value * 100) / 100;
   };
+
+  console.log(payments);
 
   return (
     <>
