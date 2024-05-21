@@ -62,14 +62,14 @@ const Login = ({ username, setUsername, setScreen }) => {
             </form>
             <div className="login-signup">
                 Don't have an account?{" "}
-                <button className="login-signup-url" onClick={() => setScreen("signup")}>
+                <a className="login-signup-url" onClick={() => setScreen("signup")}>
                     Sign up here!
-                </button>
+                </a>
             </div>
             <div className="login-signup">
-                <button className="login-signup-url" onClick={() => setScreen("changepassword")}>
+                <a className="login-signup-url" onClick={() => setScreen("changepassword")}>
                     Forgot password?
-                </button>
+                </a>
             </div>
         </div>
     );

@@ -58,9 +58,9 @@ const ForgotPassword = ({ setScreen }) => {
                 </button>
             </form>
             <div className="fp-login">
-                <button className="fp-login-url" onClick={() => setScreen("login")}>
+                <a className="fp-login-url" onClick={() => setScreen("login")}>
                     Back to Login
-                </button>
+                </a>
             </div>
         </div>
     )
