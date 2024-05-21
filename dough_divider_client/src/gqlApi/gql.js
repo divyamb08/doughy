@@ -172,3 +172,18 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword(
+    $username: String!
+    $newPassword: String!
+  ) {
+    changePassword(username: $username, newPassword: $newPassword) {
+      first_name
+      last_name
+      username
+      email
+      password
+    }
+  }
+`

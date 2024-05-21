@@ -4,11 +4,12 @@ import Homepage from "./screens/Homepage";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 import "./App.css";
+import ForgotPassword from "./screens/ForgotPassword";
 
 const App = () => {
   // Empty string indicates not logged in yet, nonempty means logged in
   const [username, setUsername] = useState("");
-  const [onSignupScreen, setOnSignupScreen] = useState(false);
+  const [screen, setScreen] = useState("login");
 
   /*
     'inactive':  User has currently not initiated any transactions
@@ -20,15 +21,18 @@ const App = () => {
   return (
     <>
       {username === "" ? (
-        !onSignupScreen ? (
+        screen === "login" ? (
           <Login
             username={username}
             setUsername={setUsername}
-            setOnSignupScreen={setOnSignupScreen}
+            setScreen={setScreen}
           />
-        ) : (
-          <Signup setOnSignupScreen={setOnSignupScreen} />
-        )
+        ) :
+          (screen === "signup" ? (
+            <Signup setScreen={setScreen} />
+          )
+            :
+            (<ForgotPassword setScreen={setScreen} />))
       ) : (
         <>
           <Homepage
