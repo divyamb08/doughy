@@ -5,11 +5,11 @@ import "../styles/Signup.css";
 
 const Signup = ({ setOnSignupScreen }) => {
   const [add_user] = useMutation(ADD_USER);
-  const [signupUsername, setSignupUsername] = useState(null);
-  const [signupFirstName, setSignupFirstName] = useState(null);
-  const [signupLastName, setSignupLastName] = useState(null);
-  const [signupEmail, setSignupEmail] = useState(null);
-  const [signupPassword, setSignupPassword] = useState(null);
+  const [signupUsername, setSignupUsername] = useState("");
+  const [signupFirstName, setSignupFirstName] = useState("");
+  const [signupLastName, setSignupLastName] = useState("");
+  const [signupEmail, setSignupEmail] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
 
   const [usernameTryAgain, setUsernameTryAgain] = useState(false);
   const showUsernameTryAgain = () => {
@@ -84,34 +84,27 @@ const Signup = ({ setOnSignupScreen }) => {
           });
         }}
       >
-        <div className="signup-name">
-          <div className="signup-text-error">
-            <textarea
-              className="signup-textarea"
-              placeholder="First Name"
-              type="text"
-              value={signupFirstName ? signupFirstName : ""}
-              onChange={(e) => setSignupFirstName(e.target.value)}
-            ></textarea>
-            {showCanNotBeEmpty("first", firstEmpty)}
-          </div>
-          <div className="signup-text-error">
-            <textarea
-              className="signup-textarea"
-              placeholder="Last Name"
-              type="text"
-              value={signupLastName ? signupLastName : ""}
-              onChange={(e) => setSignupLastName(e.target.value)}
-            ></textarea>
-            {showCanNotBeEmpty("last", lastEmpty)}
-          </div>
-        </div>
-
+        <textarea
+          className="signup-textarea"
+          placeholder="First Name"
+          type="text"
+          value={signupFirstName}
+          onChange={(e) => setSignupFirstName(e.target.value)}
+        ></textarea>
+        {showCanNotBeEmpty("first", firstEmpty)}
+        <textarea
+          className="signup-textarea"
+          placeholder="Last Name"
+          type="text"
+          value={signupLastName}
+          onChange={(e) => setSignupLastName(e.target.value)}
+        ></textarea>
+        {showCanNotBeEmpty("last", lastEmpty)}
         <textarea
           className="signup-textarea"
           placeholder="Email"
           type="text"
-          value={signupEmail ? signupEmail : ""}
+          value={signupEmail}
           onChange={(e) => setSignupEmail(e.target.value)}
         ></textarea>
         {showCanNotBeEmpty("email", emailEmpty)}
@@ -119,7 +112,7 @@ const Signup = ({ setOnSignupScreen }) => {
           className="signup-textarea"
           placeholder="Username"
           type="text"
-          value={signupUsername ? signupUsername : ""}
+          value={signupUsername}
           onChange={(e) => setSignupUsername(e.target.value)}
         ></textarea>
         {showUsernameTryAgain()}
@@ -128,7 +121,7 @@ const Signup = ({ setOnSignupScreen }) => {
           className="signup-textarea"
           placeholder="Password"
           type="text"
-          value={signupPassword ? signupPassword : ""}
+          value={signupPassword}
           onChange={(e) => setSignupPassword(e.target.value)}
         ></textarea>
         {showCanNotBeEmpty("password", passwordEmpty)}
@@ -137,12 +130,10 @@ const Signup = ({ setOnSignupScreen }) => {
         </button>
       </form>
       <div className="signup-login">
-        {" "}
         Already have an account?{" "}
         <a href="url" className="signup-login-url">
-          {" "}
-          Login here!{" "}
-        </a>{" "}
+          Login here!
+        </a>
       </div>
     </div>
   );

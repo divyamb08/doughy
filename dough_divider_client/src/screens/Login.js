@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { AUTHENTICATE_USER } from "../gqlApi/gql";
-import Button from "../components/Button";
 import "../styles/Login.css";
 
 const Login = ({ username, setUsername, setOnSignupScreen }) => {
@@ -9,6 +8,7 @@ const Login = ({ username, setUsername, setOnSignupScreen }) => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [tryAgain, setTryAgain] = useState(false);
+
   const showTryAgain = () => {
     if (tryAgain) {
       return (
@@ -21,7 +21,7 @@ const Login = ({ username, setUsername, setOnSignupScreen }) => {
 
   return (
     <div className="login">
-      <div className="login-title"> Login </div>
+      <div className="login-title">DoughDivider</div>
       <form
         className="login-form-container"
         onSubmit={(e) => {
@@ -41,32 +41,37 @@ const Login = ({ username, setUsername, setOnSignupScreen }) => {
           });
         }}
       >
-        <textarea
+        <input
           className="login-textarea"
-          placeholder="Username"
+          placeholder="Email"
           type="text"
           value={loginUsername}
           onChange={(e) => setLoginUsername(e.target.value)}
-        ></textarea>
-        <textarea
+        />
+        <input
           className="login-textarea"
           placeholder="Password"
-          type="text"
+          type="password"
           value={loginPassword}
           onChange={(e) => setLoginPassword(e.target.value)}
-        ></textarea>
+        />
         {showTryAgain()}
         <button className="login-submit-button" type="submit">
           Login
         </button>
       </form>
       <div className="login-signup">
-        {" "}
         Don't have an account?{" "}
-        <a className="login-signup-url" onClick={() => setOnSignupScreen(true)}>
-          {" "}
-          Sign up here!{" "}
-        </a>{" "}
+        <button className="login-signup-url" onClick={() => setOnSignupScreen(true)}>
+          Sign up here!
+        </button>
+      </div>
+      <div className="login-social">
+        <div className="login-or">or</div>
+        <div className="login-social-buttons">
+          <button className="login-social-button google">G</button>
+          <button className="login-social-button facebook">F</button>
+        </div>
       </div>
     </div>
   );
