@@ -146,7 +146,7 @@ const LeaderUsersSubmodal = ({
       payments.length
     );
 
-    if (event.target.value == "custom") {
+    if (event.target.value === "custom") {
       //wierd stuff when going from equal to custom
       //just set all to 0
       for (let i = 0; i < newPayments.length; i++) {
@@ -194,7 +194,7 @@ const LeaderUsersSubmodal = ({
         <br />
 
         <div className="transaction-total-wrapper">
-          <div>Total Payment Amount:</div>
+          <div style={{paddingBottom: "10px"}}>Total Payment Amount:</div>
           {splitSchema === "custom" ? (
             <div>{transactionTotal}</div>
           ) : (

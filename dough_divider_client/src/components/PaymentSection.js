@@ -6,12 +6,13 @@ const PaymentSection = ({ updateCardHandler, sendHandler }) => {
     <div class="payment-modal-wrapper">
       <div className="modal-title">Add Payment Info</div>
       <div className="payment-wrapper">
-        <div>Card Number:</div>
+        <div style={{marginLeft:"15px"}}>Card Number:</div>
         <input
           className="card-input"
           type="text"
           onChange={updateCardHandler}
           placeholder="Enter card number..."
+          style={{marginRight:"15px"}}
         />
       </div>
       <Button
