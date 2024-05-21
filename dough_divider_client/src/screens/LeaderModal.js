@@ -17,53 +17,12 @@ const LeaderModal = ({
   transactionState,
   setTransactionState,
   getCompletedTransactions,
+  handleTransactionCancel,
 }) => {
   const [senderNote, setSenderNote] = useState("");
   const [activeScreen, setActiveScreen] = useState("users");
   const [splitSchema, setSplitSchema] = useState("equal");
   const [transactionTotal, setTransactionTotal] = useState(0);
-
-  const [deleteTransaction, { data: dataDeleted, loading: loadingDeleted }] =
-    useMutation(DELETE_TRANSACTION);
-
-  const handleTransactionCancel = () => {
-    // If transaction was already sent, delete transactions from active transactions table
-    if (transactionState == "active") {
-      for (let i = 0; i < payments.length; i++) {
-        const payment = payments[i];
-
-        deleteTransaction({
-          variables: {
-            leader: payment.leader,
-            member: payment.member,
-          },
-        });
-        setPayments([
-          {
-            leader: username,
-            member: username,
-            amount: 0,
-            completed: true,
-            card: "N/A",
-          },
-        ]);
-      }
-    }
-
-    setTransactionState("inactive");
-    setPayments([
-      {
-        leader: username,
-        member: username,
-        amount: 0,
-        completed: true,
-        card: "N/A",
-      },
-    ]);
-    setMemberLookup({
-      username: 0,
-    });
-  };
 
   // Referencing some code & styling from project 2 here:
   // https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-v2-cs2027/blob/main/recipe_tracker_client/src/components/EditModal.js#L96
