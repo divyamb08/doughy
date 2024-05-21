@@ -8,7 +8,7 @@ https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-
   top: 10%;
   left: 50%;
   transform: translate(-50%, -10%);
-  height: 80%;
+  height: auto;
   width: 80%;
   z-index: 1;
   background-color: #ECFDF1;
@@ -24,6 +24,7 @@ https://github.com/CS-396-Full-Stack-Software-Eng/project-2-recipe-step-tracker-
   margin-top: 15px;
   font-size: 28px;
   font-weight: bold;
+  text-align: center;
   font-family: 'Comic Sans MS', cursive, sans-serif; 
 }
 

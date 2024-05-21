@@ -17,6 +17,7 @@ const UserPaymentRow = ({
         onChange={(event) => updateUsername(event, index)}
         defaultValue={payment.member}
         placeholder="Enter username..."
+        style={{maxWidth: "100px"}}
       />
       {splitSchema === "equal" ? (
         <div>{payment.amount}</div>
@@ -28,6 +29,7 @@ const UserPaymentRow = ({
           onChange={(event) => updateAmount(event, index)}
           defaultValue={payment.amount}
           placeholder="Enter amount..."
+          style={{maxWidth: "40px",borderRadius:"5px"}}
         />
       )}
       <button
