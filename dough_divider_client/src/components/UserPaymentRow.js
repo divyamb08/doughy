@@ -17,7 +17,8 @@ const UserPaymentRow = ({
         onChange={(event) => updateUsername(event, index)}
         defaultValue={payment.member}
         placeholder="Enter username..."
-        style={{maxWidth: "100px"}}
+        style={{ maxWidth: "100px" }}
+        disabled={index === 0} // Group leader can't edit themselves
       />
       {splitSchema === "equal" ? (
         <div>{payment.amount}</div>
@@ -29,25 +30,28 @@ const UserPaymentRow = ({
           onChange={(event) => updateAmount(event, index)}
           defaultValue={payment.amount}
           placeholder="Enter amount..."
-          style={{maxWidth: "40px",borderRadius:"5px"}}
+          style={{ maxWidth: "40px", borderRadius: "5px" }}
         />
       )}
-      <button
-        onClick={() => removePayment(index)}
-        style={{
-          width: "100%",
-          padding: 0,
-          border: "none",
-          background: "none",
-        }}
-      >
-        <img
-          src={delBut}
-          alt="buttonpng"
-          style={{ height: "30px", verticalAlign: "middle" }}
-          border="0"
-        />
-      </button>
+      {/* Make it so that group leader can't be removed */}
+      {index !== 0 && (
+        <button
+          onClick={() => removePayment(index)}
+          style={{
+            width: "100%",
+            padding: 0,
+            border: "none",
+            background: "none",
+          }}
+        >
+          <img
+            src={delBut}
+            alt="buttonpng"
+            style={{ height: "30px", verticalAlign: "middle" }}
+            border="0"
+          />
+        </button>
+      )}
     </div>
   );
 };

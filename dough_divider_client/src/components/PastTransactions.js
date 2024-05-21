@@ -17,10 +17,11 @@ const PastTransactions = ({
           <hr></hr>
           <div className="amount">${transaction.amount.toFixed(2)}</div>
           <div className="date">
-            {new Date(transaction.date).toLocaleDateString("en-US", {
+            {transaction.datetime}
+            {/* {new Date(transaction.date).toLocaleDateString("en-US", {
               day: "2-digit",
               month: "short",
-            })}
+            })} */}
           </div>
         </div>
       ))}

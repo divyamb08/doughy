@@ -15,4 +15,4 @@ class CompletedTransaction(models.Model):
     member = models.CharField(max_length=128, default='')
     amount = models.FloatField()
     note = models.CharField(max_length=1024, default='')
-    date = models.CharField(max_length=8, default='')
+    datetime = models.CharField(max_length=16, default='')
