@@ -42,7 +42,7 @@ const Homepage = ({
     {
       variables: { member: username },
       onCompleted: (result) => {
-        if (result.getTransactionByMember.length == 0) {
+        if (result.getTransactionByMember.length === 0) {
           return;
         }
 

@@ -66,13 +66,6 @@ const Login = ({ username, setUsername, setOnSignupScreen }) => {
           Sign up here!
         </button>
       </div>
-      <div className="login-social">
-        <div className="login-or">or</div>
-        <div className="login-social-buttons">
-          <button className="login-social-button google">G</button>
-          <button className="login-social-button facebook">F</button>
-        </div>
-      </div>
     </div>
   );
 };

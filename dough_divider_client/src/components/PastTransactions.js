@@ -1,11 +1,15 @@
-import TransactionRow from "./TransactionRow";
-import "../styles/Homepage.css";
+import React from 'react';
+import '../styles/PastTransaction.css';
 
 const PastTransactions = ({ completedTransactions }) => {
   return (
-    <div className="past-transactions-wrapper">
+    <div className="past-transactions">
       {completedTransactions.map((transaction, index) => (
-        <TransactionRow transaction={transaction} key={index} />
+        <div key={index} className="transaction-card">
+          <div className="expense-name">{transaction.name}</div>
+          <div className="amount">${transaction.amount.toFixed(2)}</div>
+          <div className="date">{new Date(transaction.date).toLocaleDateString('en-US', { day: '2-digit', month: 'short' })}</div>
+        </div>
       ))}
     </div>
   );

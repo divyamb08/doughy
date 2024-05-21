@@ -1,0 +1,23 @@
+.transaction-card {
+    background-color: #ffe4e1; /* Light pink background */
+    border-radius: 15px; 
+    padding: 20px;
+    margin: 10px;
+    width: 200px;
+    font-family: 'Comic Sans MS', cursive, sans-serif; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .transaction-card .expense-name {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .transaction-card .amount {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .transaction-card .date {
+    font-size: 16px;
+  }
