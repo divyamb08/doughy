@@ -3,6 +3,17 @@ import { useState } from "react";
 const TransactionDetailCard = ({ transaction, onClose }) => {
   if (!transaction) return null;
 
+  // Copied from 'PastTransacions.js'
+  const parseDatetimeString = (datetime) => {
+    let [date, time] = datetime.split(", ");
+    date = new Date(date).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+    });
+
+    return `${date} @ ${time}`;
+  };
+
   return (
     <div style={styles.modalOverlay}>
       <div style={styles.modalContent}>
@@ -11,6 +22,7 @@ const TransactionDetailCard = ({ transaction, onClose }) => {
         <p>Member: {transaction.member}</p>
         <p>Amount: ${transaction.amount}</p>
         <p>Note: {transaction.note || "No additional notes"}</p>
+        <p>Date: {parseDatetimeString(transaction.datetime)}</p>
         <button onClick={onClose}>Close</button>
       </div>
     </div>

@@ -5,6 +5,16 @@ const PastTransactions = ({
   completedTransactions,
   setSelectedTransaction,
 }) => {
+  const parseDatetimeString = (datetime) => {
+    let [date, time] = datetime.split(", ");
+    date = new Date(date).toLocaleDateString("en-US", {
+      day: "2-digit",
+      month: "short",
+    });
+
+    return `${date} @ ${time}`;
+  };
+
   return (
     <div className="past-transactions">
       {completedTransactions.map((transaction, index) => (
@@ -17,11 +27,7 @@ const PastTransactions = ({
           <hr></hr>
           <div className="amount">${transaction.amount.toFixed(2)}</div>
           <div className="date">
-            {transaction.datetime}
-            {/* {new Date(transaction.date).toLocaleDateString("en-US", {
-              day: "2-digit",
-              month: "short",
-            })} */}
+            {parseDatetimeString(transaction.datetime)}
           </div>
         </div>
       ))}
