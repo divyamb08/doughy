@@ -21,6 +21,7 @@ export const GET_COMPLETED_TRANSACTIONS = gql`
       member
       amount
       note
+      date
     }
   }
 `;
@@ -39,6 +40,7 @@ export const ADD_COMPLETED_TRANSACTION = gql`
       member
       amount
       note
+      date
     }
   }
 `;

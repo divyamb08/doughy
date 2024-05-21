@@ -56,6 +56,7 @@ type_defs = """
       member: String!
       amount: Float!
       note: String!
+      date: String!
     }
 
     input CompletedTransactionInput {
