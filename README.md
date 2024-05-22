@@ -23,7 +23,7 @@ If the `pip3 install -r requirements.txt` step above fails, try running the foll
 pip3 install ariadne ariadne-django broadcaster channels daphne Django django-cors-headers djangorestframework starlette
 ```
 
-Confirm that the server is correctly up and running by visiting the [http://127.0.0.1:8000/api/graphql/](http://127.0.0.1:8000/api/graphql/) endpoint. If not, and you get a missing dependencies error, this can likely be solved with `pip3 install (missing dependency name)`.
+Confirm that the server is correctly up and running by visiting the [http://127.0.0.1:8000/graphql/](http://127.0.0.1:8000/graphql/) endpoint, where you should see a GraphQL playground. If not, and you get a missing dependencies error, this can likely be solved with `pip3 install (missing dependency name)`.
 
 Once this is up and running, then run the frontend client:
 
