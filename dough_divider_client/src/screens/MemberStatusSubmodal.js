@@ -1,6 +1,5 @@
 import { useMutation } from "@apollo/client";
 import { UPDATE_TRANSACTION } from "../gqlApi/gql";
-import Button from "../components/Button.js";
 import "../styles/MemberStatus.css";
 import acptBtn from "../assets/accept.png";
 import rejBtn from "../assets/reject.png";

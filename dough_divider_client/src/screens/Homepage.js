@@ -79,7 +79,6 @@ const Homepage = ({
     {
       variables: { member: username },
       onCompleted: (result) => {
-
         if (result.getTransactionByMember.length === 0) {
           return;
         }
@@ -99,8 +98,6 @@ const Homepage = ({
     }
   );
 
-
-
   const { data: dataMember, loading: loadingMember } = useSubscription(
     MEMBER_SUBSCRIPTION,
     {
@@ -111,20 +108,19 @@ const Homepage = ({
     }
   );
 
-  const { data: dataMemberCompleted, loading: loadingMemberCompleted } = useSubscription(
-    MEMBER_COMPLETED_SUBSCRIPTION,
-    {
+  const { data: dataMemberCompleted, loading: loadingMemberCompleted } =
+    useSubscription(MEMBER_COMPLETED_SUBSCRIPTION, {
       variables: { member: username },
       onData: (result) => {
         if (result) {
           const newCompletedTransactionList = completedTransactions;
-          newCompletedTransactionList.unshift(result.data.data.getCompletedTransactionByMember);
+          newCompletedTransactionList.unshift(
+            result.data.data.getCompletedTransactionByMember
+          );
           setCompletedTransactions(newCompletedTransactionList);
         }
-
       },
-    }
-  );
+    });
 
   const { data: dataDeleted, loading: loadingDeleted } = useSubscription(
     DELETE_SUBSCRIPTION,
@@ -226,7 +222,6 @@ const Homepage = ({
         <MemberModal
           receivedTransaction={receivedTransaction}
           setReceivedTransaction={setReceivedTransaction}
-          getCompletedTransactions={getCompletedTransactions}
         />
       )}
       {/* reciever end */}
@@ -248,8 +243,8 @@ const Homepage = ({
 
       {(Object.keys(receivedTransaction).length !== 0 ||
         transactionState !== "inactive") && (
-          <div className="homepage-cover"></div>
-        )}
+        <div className="homepage-cover"></div>
+      )}
 
       <HomepageHeader
         username={username}

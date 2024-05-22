@@ -7,9 +7,7 @@ from ariadne.asgi.handlers import GraphQLWSHandler
 from broadcaster import Broadcast
 from starlette.applications import Starlette
 from .models import Transaction, CompletedTransaction
-from asgiref.sync import sync_to_async
 import asyncio
-import json
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .type_defs import type_defs
@@ -122,7 +120,7 @@ def change_password(_, info, username, newPassword):
     user.save()
     return user
 
-# TODO
+### Data parsing helpers
 def parseTransactionToJson(transactionObj):
   return {
     "transactionId": transactionObj.transactionId,

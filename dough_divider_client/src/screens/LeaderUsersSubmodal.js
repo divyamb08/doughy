@@ -1,20 +1,17 @@
 import UserPayments from "../components/UserPayments";
-import Button from "../components/Button.js";
 import "../styles/Modal.css";
 import "../styles/LeaderModal.css";
 import addUsr from "../assets/user_add.png";
 import createTxn from "../assets/create_txn.png";
 import { useState } from "react";
 import { GET_ALL_USERS } from "../gqlApi/gql.js";
-import { useQuery, useLazyQuery } from "@apollo/client";
-//
+import { useQuery } from "@apollo/client";
 
 const LeaderUsersSubmodal = ({
   payments,
   setPayments,
   setSenderNote,
   setActiveScreen,
-  memberLookupInPayments,
   setMemberLookup,
   splitSchema,
   setSplitSchema,
@@ -65,8 +62,6 @@ const LeaderUsersSubmodal = ({
     const newTransactionTotal =
       Math.ceil((transactionTotal + totalTransactionChange) * 100) / 100;
     setTransactionTotal(newTransactionTotal);
-
-    // truncateDecimals(event, newAmount); // Prevent UI from going past 2 decimals
 
     newPayment["amount"] = newAmount;
     newPayments[index] = newPayment;
@@ -123,8 +118,6 @@ const LeaderUsersSubmodal = ({
 
     setPayments(filteredPayments);
   };
-
-  ////
 
   function submitUserInfo() {
     let newMemberLookup = {};

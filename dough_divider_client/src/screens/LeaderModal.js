@@ -2,9 +2,6 @@ import { useState } from "react";
 import LeaderUsersSubmodal from "./LeaderUsersSubmodal";
 import LeaderPaymentSubmodal from "./LeaderPaymentSubmodal";
 import LeaderWaitingSubmodal from "./LeaderWaitingSubmodal";
-import { useMutation } from "@apollo/client";
-import { DELETE_TRANSACTION } from "../gqlApi/gql";
-import Button from "../components/Button";
 import "../styles/Modal.css";
 import cancelPay from "../assets/cancel.png";
 
@@ -65,7 +62,6 @@ const LeaderModal = ({
           setPayments={setPayments}
           setSenderNote={setSenderNote}
           setActiveScreen={setActiveScreen}
-          memberLookupInPayments={memberLookupInPayments}
           setMemberLookup={setMemberLookup}
           splitSchema={splitSchema}
           setSplitSchema={setSplitSchema}

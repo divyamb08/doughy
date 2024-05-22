@@ -3,11 +3,7 @@ import MemberStatusSubmodal from "./MemberStatusSubmodal";
 import MemberPaymentSubmodal from "./MemberPaymentSubmodal";
 import "../styles/Modal.css";
 
-const MemberModal = ({
-  receivedTransaction,
-  setReceivedTransaction,
-  getCompletedTransactions,
-}) => {
+const MemberModal = ({ receivedTransaction, setReceivedTransaction }) => {
   const [activeScreen, setActiveScreen] = useState("status");
 
   return (
