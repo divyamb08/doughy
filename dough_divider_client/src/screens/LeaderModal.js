@@ -43,7 +43,7 @@ const LeaderModal = ({
           border="0"
         />
       </button>
-      {transactionState == "active" ? (
+      {transactionState === "active" ? (
         <LeaderWaitingSubmodal
           username={username}
           payments={payments}
@@ -56,7 +56,7 @@ const LeaderModal = ({
           getCompletedTransactions={getCompletedTransactions}
           transactionTotal={transactionTotal}
         />
-      ) : activeScreen == "users" ? (
+      ) : activeScreen === "users" ? (
         <LeaderUsersSubmodal
           payments={payments}
           setPayments={setPayments}

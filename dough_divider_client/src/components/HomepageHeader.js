@@ -1,11 +1,7 @@
 import "../styles/Homepage.css";
 import Button from "./Button";
 
-const HomepageHeader = ({
-  username,
-  handleLougout,
-  transactionState,
-}) => {
+const HomepageHeader = ({ username, handleLougout, transactionState }) => {
   return (
     <div className="homepage-header-wrapper">
       <div className="navbar">
@@ -13,8 +9,7 @@ const HomepageHeader = ({
           Currently Logged In As: <b>{username}</b>
         </div>
 
-
-        {transactionState == "inactive" && (
+        {transactionState === "inactive" && (
           <Button
             height="30px"
             width="100px"

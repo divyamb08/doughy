@@ -1,6 +1,5 @@
 import { ADD_TRANSACTION } from "../gqlApi/gql";
 import { useMutation } from "@apollo/client";
-import Button from "../components/Button";
 import PaymentSection from "../components/PaymentSection";
 import "../styles/Modal.css";
 
@@ -10,10 +9,7 @@ const LeaderPaymentSubmodal = ({
   senderNote,
   setTransactionState,
 }) => {
-  const [
-    addTransaction,
-    { data: dataAdd, loading: loadingAdd, error: errorAdd },
-  ] = useMutation(ADD_TRANSACTION);
+  const [addTransaction, {}] = useMutation(ADD_TRANSACTION);
 
   const updateLeaderCard = (event) => {
     let newPayments = [...payments];
