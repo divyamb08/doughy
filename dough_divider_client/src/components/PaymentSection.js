@@ -3,16 +3,16 @@ import "../styles/Modal.css";
 
 const PaymentSection = ({ updateCardHandler, sendHandler }) => {
   return (
-    <div class="payment-modal-wrapper">
+    <div className="payment-modal-wrapper">
       <div className="modal-title">Add Payment Info</div>
       <div className="payment-wrapper">
-        <div style={{marginLeft:"15px"}}>Card Number:</div>
+        <div style={{ marginLeft: "15px" }}>Card Number:</div>
         <input
           className="card-input"
           type="text"
           onChange={updateCardHandler}
           placeholder="Enter card number..."
-          style={{marginRight:"15px"}}
+          style={{ marginRight: "15px" }}
         />
       </div>
       <Button

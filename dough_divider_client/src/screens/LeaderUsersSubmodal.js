@@ -4,7 +4,9 @@ import "../styles/Modal.css";
 import "../styles/LeaderModal.css";
 import addUsr from "../assets/user_add.png";
 import createTxn from "../assets/create_txn.png";
-
+import { useState } from "react";
+import { GET_ALL_USERS } from "../gqlApi/gql.js";
+import { useQuery, useLazyQuery } from "@apollo/client";
 //
 
 const LeaderUsersSubmodal = ({
@@ -19,6 +21,16 @@ const LeaderUsersSubmodal = ({
   transactionTotal,
   setTransactionTotal,
 }) => {
+  const { data: allUsers, loading: loadingUsers } = useQuery(GET_ALL_USERS);
+  const [userNotFound, setUserNotFound] = useState(false);
+  const showUserNotFound = () => {
+    if (userNotFound) {
+      return (
+        <div> User(s) not found. Please try again. </div>
+      )
+    }
+  };
+
   const updateUsername = (event, index) => {
     let newPayments = [...payments];
     let newPayment = { ...newPayments[index] };
@@ -104,11 +116,20 @@ const LeaderUsersSubmodal = ({
 
   ////
 
-  const submitUserInfo = () => {
+  function submitUserInfo() {
     let newMemberLookup = {};
-
+    while (loadingUsers) { };
+    var allLoadedUsers = [];
+    allUsers.getAllUsers.forEach(function (obj) {
+      allLoadedUsers.push(obj.username);
+    })
     for (let i = 0; i < payments.length; i++) {
       const member = payments[i].member;
+
+      if (allUsers && !allLoadedUsers.includes(member)) {
+        setUserNotFound(true);
+        return
+      }
       newMemberLookup[member] = i;
     }
 
@@ -165,8 +186,6 @@ const LeaderUsersSubmodal = ({
     event.target.value = Math.ceil(value * 100) / 100;
   };
 
-  console.log(payments);
-
   return (
     <>
       <div className="modal-title">Start New Transaction</div>
@@ -216,6 +235,8 @@ const LeaderUsersSubmodal = ({
           removePayment={removePayment}
         />
 
+        {showUserNotFound()}
+
         <div className="transaction-buttons-wrapper">
           <button onClick={() => addPayment()} className="usrButton">
             <img
@@ -233,7 +254,7 @@ const LeaderUsersSubmodal = ({
               style={{ height: "30px", verticalAlign: "middle" }}
               border="0"
             />
-            <p>Goto Payment</p>
+            <p>Go to Payment</p>
           </button>
         </div>
       </div>

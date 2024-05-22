@@ -71,7 +71,7 @@ def delete_all_transactions(_, info):
   return True
 
 @mutation.field("addCompletedTransaction")
-def add_completed_transaction(_, info, input):
+async def add_completed_transaction(_, info, input):
   completedTransaction = CompletedTransaction(
     leader=input["leader"],
     member=input["member"],
@@ -80,6 +80,15 @@ def add_completed_transaction(_, info, input):
     # Convert to central time
     datetime=(datetime.now(timezone.utc) - timedelta(hours=5)).strftime("%m-%d, %I:%M %p")
   )
+
+  transactionJson = parseCompletedTransactionToJson(completedTransaction)
+
+  for queue in queues:
+    await queue.put({
+      "type": "addCompletedTransaction",
+      "transaction": transactionJson
+    })
+
   completedTransaction.save()
   return completedTransaction
 
@@ -123,6 +132,15 @@ def parseTransactionToJson(transactionObj):
     "completed": transactionObj.completed,
     "note": transactionObj.note,
     "card": transactionObj.card
+  }
+
+def parseCompletedTransactionToJson(transactionObj):
+  return {
+    "leader": transactionObj.leader,
+    "member": transactionObj.member,
+    "amount": transactionObj.amount,
+    "note": transactionObj.note,
+    "datetime": transactionObj.datetime
   }
 
 @mutation.field("updateTransaction")
@@ -195,6 +213,24 @@ async def generate_transaction_by_member(_, info, member):
 
 @subscription.field("getTransactionByMember")
 def resolve_transaction_by_member(transactionJson, info, member):
+  return transactionJson
+
+@subscription.source("getCompletedTransactionByMember")
+async def generate_completed_transaction_by_member(_, info, member):
+  queue = asyncio.Queue()
+  queues.append(queue)
+
+  while True:
+    result = await queue.get()
+    type = result["type"]
+    transactionJson = result["transaction"]
+    queue.task_done()
+
+    if type == "addCompletedTransaction" and member == transactionJson["member"]:
+      yield transactionJson
+
+@subscription.field("getCompletedTransactionByMember")
+def resolve_completed_transaction_by_member(transactionJson, info, member):
   return transactionJson
 
 @subscription.source("getDeletedTransactionByMember")

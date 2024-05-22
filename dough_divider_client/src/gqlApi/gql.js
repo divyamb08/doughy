@@ -115,6 +115,18 @@ export const LEADER_SUBSCRIPTION = gql`
   }
 `;
 
+export const MEMBER_COMPLETED_SUBSCRIPTION = gql`
+subscription getCompletedTransactionsByMember($member: String!) {
+  getCompletedTransactionByMember(member: $member) {
+		  leader
+      member
+      amount
+      note
+    	datetime
+  }
+}
+`;
+
 export const MEMBER_SUBSCRIPTION = gql`
   subscription member($member: String!) {
     getTransactionByMember(member: $member) {
@@ -171,6 +183,18 @@ export const ADD_USER = gql`
       password
     }
   }
+`;
+
+export const GET_ALL_USERS = gql`
+query getAllUsers {
+  getAllUsers {
+    email
+    password
+    first_name
+    last_name
+    username
+  }
+}
 `;
 
 export const CHANGE_PASSWORD = gql`

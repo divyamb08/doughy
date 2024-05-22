@@ -3,8 +3,6 @@ import Button from "./Button";
 
 const HomepageHeader = ({
   username,
-  possibleRefresh,
-  refreshTransactionsHandler,
   handleLougout,
   transactionState,
 }) => {
@@ -15,18 +13,6 @@ const HomepageHeader = ({
           Currently Logged In As: <b>{username}</b>
         </div>
 
-        <div className="past-transactions-header-wrapper">
-          {possibleRefresh && (
-            <Button
-              height="30px"
-              width="100px"
-              fontSize="16px"
-              color="lightgray"
-              text="Refresh"
-              onClickHandler={refreshTransactionsHandler}
-            ></Button>
-          )}
-        </div>
 
         {transactionState == "inactive" && (
           <Button

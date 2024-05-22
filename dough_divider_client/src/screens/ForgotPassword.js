@@ -30,7 +30,6 @@ const ForgotPassword = ({ setScreen }) => {
                         variables: { username: fpUsername, newPassword: fpNewPassword },
                         onCompleted: (data) => {
                             setScreen("login")
-                            console.log(data);
                         },
                         onError: (error) => {
                             setTryAgain("true");

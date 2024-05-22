@@ -23,6 +23,7 @@ type_defs = """
       getTransactionByLeader(leader: String!): TransactionWithId!
       getTransactionByMember(member: String!): TransactionWithId!
       getDeletedTransactionByMember(member: String!): TransactionWithId!
+      getCompletedTransactionByMember(member: String!): CompletedTransaction
     }
 
     type User {

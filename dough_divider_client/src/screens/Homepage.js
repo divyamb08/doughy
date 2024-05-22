@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   GET_ACTIVE_TRANSACTION,
   MEMBER_SUBSCRIPTION,
+  MEMBER_COMPLETED_SUBSCRIPTION,
   DELETE_SUBSCRIPTION,
   GET_COMPLETED_TRANSACTIONS,
   DELETE_TRANSACTION,
@@ -10,7 +11,6 @@ import { useQuery, useLazyQuery } from "@apollo/client";
 import { useSubscription, useMutation } from "@apollo/client";
 import LeaderModal from "./LeaderModal";
 import MemberModal from "./MemberModal";
-import Button from "../components/Button";
 import HomepageHeader from "../components/HomepageHeader";
 import PastTransactions from "../components/PastTransactions";
 import TransactionDetailModal from "../components/TransactionDetailCard";
@@ -79,8 +79,6 @@ const Homepage = ({
     {
       variables: { member: username },
       onCompleted: (result) => {
-        console.log("username", username);
-        console.log("result", result);
 
         if (result.getTransactionByMember.length === 0) {
           return;
@@ -101,8 +99,7 @@ const Homepage = ({
     }
   );
 
-  // After user receives a payment & (might) need to refresh past transactions (i.e. if completed by group leader)
-  const [possibleRefresh, setPossibleRefresh] = useState(false);
+
 
   const { data: dataMember, loading: loadingMember } = useSubscription(
     MEMBER_SUBSCRIPTION,
@@ -110,6 +107,21 @@ const Homepage = ({
       variables: { member: username },
       onData: (result) => {
         setReceivedTransaction(result.data.data.getTransactionByMember);
+      },
+    }
+  );
+
+  const { data: dataMemberCompleted, loading: loadingMemberCompleted } = useSubscription(
+    MEMBER_COMPLETED_SUBSCRIPTION,
+    {
+      variables: { member: username },
+      onData: (result) => {
+        if (result) {
+          const newCompletedTransactionList = completedTransactions;
+          newCompletedTransactionList.unshift(result.data.data.getCompletedTransactionByMember);
+          setCompletedTransactions(newCompletedTransactionList);
+        }
+
       },
     }
   );
@@ -191,11 +203,6 @@ const Homepage = ({
       const numTransactionsBefore = completedTransactions.length;
       const numTransactionsAfter = orderedTransactions.length;
 
-      // i.e.) Group leader completed transaction on their end
-      if (possibleRefresh && numTransactionsBefore != numTransactionsAfter) {
-        setPossibleRefresh(false);
-      }
-
       setCompletedTransactions(orderedTransactions);
     },
   });
@@ -220,7 +227,6 @@ const Homepage = ({
           receivedTransaction={receivedTransaction}
           setReceivedTransaction={setReceivedTransaction}
           getCompletedTransactions={getCompletedTransactions}
-          setPossibleRefresh={setPossibleRefresh}
         />
       )}
       {/* reciever end */}
@@ -242,13 +248,11 @@ const Homepage = ({
 
       {(Object.keys(receivedTransaction).length !== 0 ||
         transactionState !== "inactive") && (
-        <div className="homepage-cover"></div>
-      )}
+          <div className="homepage-cover"></div>
+        )}
 
       <HomepageHeader
         username={username}
-        possibleRefresh={possibleRefresh}
-        refreshTransactionsHandler={() => getCompletedTransactions()}
         handleLougout={handleLougout}
         transactionState={transactionState}
       />
