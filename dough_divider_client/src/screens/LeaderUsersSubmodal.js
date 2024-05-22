@@ -25,9 +25,7 @@ const LeaderUsersSubmodal = ({
   const [userNotFound, setUserNotFound] = useState(false);
   const showUserNotFound = () => {
     if (userNotFound) {
-      return (
-        <div> User(s) not found. Please try again. </div>
-      )
+      return <div> User(s) not found. Please try again. </div>;
     }
   };
 
@@ -43,10 +41,23 @@ const LeaderUsersSubmodal = ({
   const updateAmount = (event, index) => {
     let newPayments = [...payments];
     let newPayment = { ...newPayments[index] };
-    const newAmount = parseFloat(event.target.value);
+
+    const newTotal = event.target.value;
+    const newAmount = parseFloat(newTotal);
 
     // Edge case for blank / cleared out data
     if (isNaN(newAmount)) {
+      return;
+    }
+
+    // User is in the middle of typing a decimal input -> ignore
+    if (newTotal.endsWith(".")) {
+      return;
+    }
+
+    // User tries to go past 2 decimals -> don't allow
+    if (newTotal.indexOf(".") > -1 && newTotal.split(".")[1].length > 2) {
+      event.target.value = newTotal.slice(0, -1);
       return;
     }
 
@@ -55,7 +66,7 @@ const LeaderUsersSubmodal = ({
       Math.ceil((transactionTotal + totalTransactionChange) * 100) / 100;
     setTransactionTotal(newTransactionTotal);
 
-    truncateDecimals(event, newAmount); // Prevent UI from going past 2 decimals
+    // truncateDecimals(event, newAmount); // Prevent UI from going past 2 decimals
 
     newPayment["amount"] = newAmount;
     newPayments[index] = newPayment;
@@ -89,7 +100,6 @@ const LeaderUsersSubmodal = ({
     setPayments(newPayments);
   };
 
-  /////
   const removePayment = (index) => {
     let filteredPayments = payments.filter((_, idx) => idx !== index);
 
@@ -118,37 +128,67 @@ const LeaderUsersSubmodal = ({
 
   function submitUserInfo() {
     let newMemberLookup = {};
-    while (loadingUsers) { };
+    while (loadingUsers) {}
     var allLoadedUsers = [];
     allUsers.getAllUsers.forEach(function (obj) {
       allLoadedUsers.push(obj.username);
-    })
+    });
     for (let i = 0; i < payments.length; i++) {
       const member = payments[i].member;
 
       if (allUsers && !allLoadedUsers.includes(member)) {
         setUserNotFound(true);
-        return
+        return;
       }
       newMemberLookup[member] = i;
     }
 
     setMemberLookup(newMemberLookup);
     setActiveScreen("payment");
-  };
+  }
 
   const handleTransactionTotalChange = (event) => {
-    const newTotal = parseFloat(event.target.value);
+    let newTotal = event.target.value;
 
-    truncateDecimals(event, newTotal); // Prevent UI from going past 2 decimals
+    // User is in the middle of typing a decimal input -> ignore
+    if (newTotal.endsWith(".")) {
+      return;
+    }
+
+    // User tries to go past 2 decimals -> don't allow
+    if (newTotal.indexOf(".") > -1 && newTotal.split(".")[1].length > 2) {
+      event.target.value = newTotal.slice(0, -1);
+      return;
+    }
+
+    newTotal = parseFloat(newTotal);
+
+    // Amount input is cleared out
+    if (isNaN(newTotal)) {
+      setTransactionTotal(0);
+      let newPayments = [...payments];
+
+      for (let i = 0; i < newPayments.length; i++) {
+        newPayments[i].amount = 0;
+      }
+
+      setPayments(newPayments);
+      return;
+    }
+
     setTransactionTotal(newTotal);
 
     const newEqualAmounts = getNewEqualAmounts(newTotal, payments.length);
     let newPayments = [...payments];
 
-    for (let i = 0; i < newPayments.length; i++) {
+    for (let i = 0; i < newPayments.length - 1; i++) {
       newPayments[i].amount = newEqualAmounts[i];
     }
+
+    newPayments[newPayments.length - 1].amount =
+      Math.round(
+        (newTotal - (newPayments.length - 1) * newEqualAmounts[0]) * 100
+      ) / 100;
 
     setPayments(newPayments);
   };
@@ -180,10 +220,6 @@ const LeaderUsersSubmodal = ({
 
     setTransactionTotal(0);
     setPayments(newPayments);
-  };
-
-  const truncateDecimals = (event, value) => {
-    event.target.value = Math.ceil(value * 100) / 100;
   };
 
   return (

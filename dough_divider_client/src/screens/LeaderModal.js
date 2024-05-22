@@ -37,7 +37,6 @@ const LeaderModal = ({
         }}
         className="usrButton"
         text="Cancel Transaction"
-        otherClasses="button-center"
         onClick={() => handleTransactionCancel()}
       >
         <img
